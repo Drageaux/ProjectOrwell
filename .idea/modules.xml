@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ProjectOrwell.iml" filepath="$PROJECT_DIR$/ProjectOrwell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orwell.iml" filepath="$PROJECT_DIR$/orwell.iml" />
     </modules>
   </component>
 </project>
