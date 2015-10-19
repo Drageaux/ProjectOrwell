@@ -1,15 +1,14 @@
 @(message: String)
 
-@main(title = "Lol") {
+@topbar  = {
+    <h1>Top Bar</h1>
+}
 
-    /*@play20.welcome(message, style = "Java")*/
+@main(title = "Home")(topbar) {
 
+    <!--@play20.welcome(message, style = "Java")*/-->
+    @topbar
 
-    @topbar() {
-        <ul>I'm a list
-            <li>I'm an Item</li>
-            <li>I'm an Item</li>
-            <li>I'm an Item</li>
-        </ul>
-    }
+    <h1>Home page</h1>
+
 }
