@@ -1,13 +1,21 @@
 
 @main(title = "Home") {
 
+    <div class="uk-position-cover uk-margin-large-top">
+        @display
+    </div>
+}
+
+<!-- Display main app data -->
+@display = {
     <!--
-        - Grid won't stack without small/medium/large indication
-        - 2-3 means 2/3 of the screen width
+        - centered container
+        - size: 2/3 screen width (grid won't stack without small/medium/large width indication)
+        - margin: large margin both top and bottom
+        - position: at the top
     //-->
-    <div class="uk-width-2-3 uk-container-center">
+    <div class=" uk-container-center uk-width-2-3 uk-position-top uk-margin-large-top uk-margin-large-bottom">
         <ul class="uk-list uk-list-line">
-            <li>Lol</li>
             <li>Lol</li>
             <li>Lol</li>
             <li>Lol</li>
