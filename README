@@ -2,3 +2,30 @@ This is your new Play application
 =================================
 
 This file will be packaged with your application, when using `activator dist`.
+
+Setting up IntelliJ Idea
+=================================
+1. Clone the Repo  
+
+```git clone https://github.com/Drageaux/ProjectOrwell.git```
+
+2. Import the project into IntelliJ
+3. Select SBT when prompted
+4. Select auto-import
+
+You should now be in the project in IntelliJ and it won't build :(
+
+5. Add a build task by clicking the dropdown in the top-right and selecting "Edit Configurations"
+6. Click the green + button
+7. Select "SBT Task"
+8. Name the task anything you like
+9. Under "task" write "run"
+10. Remove "Make" from the list
+11. Select "Single Instance"
+12. Select "Okay"
+
+YOU DID IT!
+
+Database
+===========================
+You'll need to change the database location uder conf/application.conf
