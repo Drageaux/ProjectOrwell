@@ -29,3 +29,30 @@ YOU DID IT!
 Database
 ===========================
 You'll need to change the database location uder conf/application.conf
+
+Deploying on Azure VM
+==========================
+
+Go to portal.azure.com:
+Get a VM - Standard A1 (1 Core, 1.75 GB memory
+Setup Endpoint HTTP 8080
+
+In VM:
+SSH into the VM
+git clone https://github.com/Drageaux/ProjectOrwell.git
+
+Get Java on VM
+sudo apt-get update
+sudo apt-get install openjdk-8-jre
+sudo apt-get install openjdk-8-jdk
+
+Get sbt on VM
+echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+sudo apt-get update
+sudo apt-get install sbt
+
+To Run:
+sbt 8080
+
+Server Running on port 8080
