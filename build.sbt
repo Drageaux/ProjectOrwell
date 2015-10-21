@@ -14,6 +14,9 @@ libraryDependencies ++= Seq(
   "com.feth" %% "play-authenticate" % "0.7.0-SNAPSHOT"
 )
 
+val appDependencies = Seq(
+  "mysql" % "connector-java" % "5.1.18"
+)
 // add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
