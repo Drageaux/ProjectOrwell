@@ -1,22 +1,39 @@
-name := """ProjectOrwell"""
+organization := "com.feth"
 
-version := "1.0-SNAPSHOT"
-
-lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
+name := "play-authenticate-usage"
 
 scalaVersion := "2.11.6"
 
-libraryDependencies ++= Seq(
-  javaJdbc,
+version := "1.0-SNAPSHOT"
+
+val appDependencies = Seq(
+  "be.objectify"  %% "deadbolt-java"     % "2.4.0",
+  // Comment the next line for local development of the Play Authentication core:
+  "com.feth"      %% "play-authenticate" % "0.7.0-SNAPSHOT",
+  "org.postgresql"    %  "postgresql"        % "9.4-1201-jdbc41",
   cache,
   javaWs,
-  "be.objectify"  %% "deadbolt-java"     % "2.4.0",
-  "com.feth" %% "play-authenticate" % "0.7.0-SNAPSHOT"
+  javaJdbc,
+  "org.webjars" % "bootstrap" % "3.2.0",
+  "org.easytesting" % "fest-assert" % "1.4" % "test"
 )
 
 // add resolver for deadbolt and easymail snapshots
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-// Play provides two styles of routers, one expects its actions to be injected, the
-// other, legacy style, accesses its actions statically.
-routesGenerator := InjectedRoutesGenerator
+// display deprecated or poorly formed Java
+javacOptions ++= Seq("-Xlint:unchecked")
+javacOptions ++= Seq("-Xlint:deprecation")
+javacOptions ++= Seq("-Xdiags:verbose")
+
+//  Uncomment the next line for local development of the Play Authenticate core:
+//lazy val playAuthenticate = project.in(file("modules/play-authenticate")).enablePlugins(PlayJava)
+
+lazy val root = project.in(file("."))
+  .enablePlugins(PlayJava, PlayEbean)
+  .settings(
+    libraryDependencies ++= appDependencies
+  )
+  /* Uncomment the next lines for local development of the Play Authenticate core: */
+  //.dependsOn(playAuthenticate)
+  //.aggregate(playAuthenticate)

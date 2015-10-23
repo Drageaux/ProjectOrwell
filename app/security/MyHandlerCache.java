@@ -7,16 +7,16 @@ import be.objectify.deadbolt.java.cache.HandlerCache;
 
 @Singleton
 public class MyHandlerCache implements HandlerCache {
+	
+	private final DeadboltHandler defaultHandler = new MyDeadboltHandler();
 
-    private final DeadboltHandler defaultHandler = new MyDeadboltHandler();
+	@Override
+	public DeadboltHandler apply(final String key) {
+		return this.defaultHandler;
+	}
 
-    @Override
-    public DeadboltHandler apply(final String key) {
-        return this.defaultHandler;
-    }
-
-    @Override
-    public DeadboltHandler get() {
-        return this.defaultHandler;
-    }
+	@Override
+	public DeadboltHandler get() {
+		return this.defaultHandler;
+	}
 }
