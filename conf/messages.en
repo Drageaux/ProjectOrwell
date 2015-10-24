@@ -1,5 +1,9 @@
 # Override default Play's validation messages
 
+# --- Orwell Texts
+orwell.signup=Sign Up
+
+
 # --- Constraints
 constraint.required=Required
 constraint.min=Minimum value: {0}
