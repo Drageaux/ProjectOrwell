@@ -1,6 +1,6 @@
 
 @main(title = "Home") {
-    <div class="uk-position-cover uk-margin-large-top">
+    <div class="uk-position-cover uk-margin-large-top" id="contentArea">
         @display
     </div>
 }
@@ -14,12 +14,58 @@
         - margin: large margin both top and bottom
         - position: at the top
     //-->
-    <div class=" uk-container-center uk-width-2-3 uk-position-top uk-margin-large-top uk-margin-large-bottom">
+    <div class="uk-container-center uk-width-3-4 uk-position-top uk-margin-medium-bottom" id="dataContainer">
         <ul class="uk-list uk-list-line">
-            <li>Lol</li>
-            <li>Lol</li>
-            <li>Lol</li>
-            <li>Lol</li>
+            <!-- Consider grids of thumbnail for multiple picture uploads -->
+            <li class="uk-animation-slide-right uk-animation data-item">
+                <article class="uk-article uk-width-9-10 uk-container-center">
+                    <br>
+                    <img class="uk-thumbnail uk-thumbnail-large" src="http://stream1.gifsoup.com/view1/1371188/poreotics-o.gif" alt="ME">
+                    <p class="uk-article-meta uk-margin-small-top">
+                        <b>
+                        via Facebook
+                        <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-16.png">
+                        at 11:30PM
+                        </b>
+                    </p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <br>
+                </article>
+            </li>
+            
+            <!-- Consider hashtags for Instagram -->
+            <li class="uk-animation-slide-right uk-animation data-item">
+                <article class="uk-article uk-width-9-10 uk-container-center">
+                    <br>
+                    <img class="uk-thumbnail uk-thumbnail-large" src="http://www.fndvisions.org/img/cutecat.jpg" alt="ME">
+                    <p class="uk-article-meta uk-margin-small-top">
+                        <b>
+                        via Instagram
+                        <img src="https://cdn0.iconfinder.com/data/icons/shift-logotypes/32/Instagram-16.png">
+                        at 3:03AM
+                        </b>
+                    </p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <br>
+                </article>
+            </li>
+            
+            <!-- Small margin title & no initial break before a Wunderlist/no-image article -->
+            <li class="uk-animation-slide-right uk-animation data-item">
+                <article class="uk-article uk-width-9-10 uk-container-center">
+                    <br>
+                    <h2 class="uk-article-title uk-margin-small">Added task "Praise Enterprise" in list "Work"</h2>
+                    <p class="uk-article-meta uk-margin-small-top">
+                        <b>
+                        via Wunderlist
+                        <img src="http://a2.mzstatic.com/us/r30/Purple3/v4/f4/51/91/f451919c-1b82-b2b3-4fce-0968b4eaddef/icon128.png" alt="ME" width="20px">
+                        at 10:00AM
+                        </b>
+                    </p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <br>
+                </article>
+            </li>
         </ul>
     </div>
 }
