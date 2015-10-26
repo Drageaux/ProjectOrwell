@@ -14,6 +14,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 
+import service.WebhookService;
 import views.html.*;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -27,8 +28,15 @@ public class Application extends Controller {
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
-	
+
+	// Get for index page
 	public static Result index() {
+		WebhookService webhookService = new WebhookService();
+		try{
+			webhookService.createWebhook();
+		}catch (Exception e){
+			//TODO what exception
+		}
 		return ok(index.render());
 	}
 
