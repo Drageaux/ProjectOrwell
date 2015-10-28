@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 
 @Entity
@@ -23,6 +24,8 @@ public class LinkedAccount extends AppModel {
 	public String providerUserId;
 	public String providerKey;
 
+	public String providerAccessToken;
+
 	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
 			Long.class, LinkedAccount.class);
 
@@ -40,6 +43,10 @@ public class LinkedAccount extends AppModel {
 	public void update(final AuthUser authUser) {
 		this.providerKey = authUser.getProvider();
 		this.providerUserId = authUser.getId();
+
+        if(authUser instanceof OAuth2AuthUser) {
+            this.providerAccessToken = ((OAuth2AuthUser) authUser).getOAuth2AuthInfo().getAccessToken();
+        }
 	}
 
 	public static LinkedAccount create(final LinkedAccount acc) {

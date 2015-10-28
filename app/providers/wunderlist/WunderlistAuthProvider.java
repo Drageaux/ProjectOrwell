@@ -7,6 +7,8 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.feth.play.module.pa.user.EmailIdentity;
+import com.feth.play.module.pa.user.NameIdentity;
 import com.google.inject.Inject;
 import play.Application;
 import play.Logger;
@@ -21,7 +23,12 @@ import play.libs.ws.WSResponse;
 public class WunderlistAuthProvider extends
         OAuth2AuthProvider<WunderlistAuthUser, WunderlistAuthInfo>{
 
+    public static final String CLIENT_ID_KEY = "clientId";
     public static final String PROVIDER_KEY = "wunderlist";
+    public static final String URL_KEY = "userInfoUrl";
+
+    private static final String TOKEN_HEADER = "X-Access-Token";
+    private static final String CLIENT_ID_HEADER = "X-Client-ID";
 
 
     @Inject
@@ -44,11 +51,27 @@ public class WunderlistAuthProvider extends
 
     @Override
     protected AuthUserIdentity transform(WunderlistAuthInfo info, String state) throws AuthException {
+        final String clientId = getConfiguration().getString(CLIENT_ID_KEY);
+        final String url = getConfiguration().getString(URL_KEY);
 
-        JsonNode data = Json.newObject()
-                .put("id", info.getAccessToken()) ;
+        final WSResponse r = WS
+                .url(url)
+                .setHeader(TOKEN_HEADER, info.getAccessToken())
+                .setHeader(CLIENT_ID_HEADER, clientId)
+                .setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
+                        info.getAccessToken()).get()
+                .get(getTimeout());
 
-        return new WunderlistAuthUser(data, info, state) ;
+        // Result comes back as an array... for some reason...
+        final JsonNode result = r.asJson().get(0);
+
+        if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
+            throw new AuthException(result.get(
+                    OAuth2AuthProvider.Constants.ERROR).asText());
+        } else {
+            Logger.debug(result.toString());
+            return new WunderlistAuthUser(result, info, state);
+        }
 
     }
 

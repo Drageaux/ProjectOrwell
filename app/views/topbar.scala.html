@@ -6,7 +6,14 @@
         <ul class="uk-navbar-nav">
 <!--             Links will have a hand icon when hovered if href leads somewhere -->
             <li><a href="/"><i class="uk-icon-home"></i>&nbsp;Home</a></li>
-            <li><a href="@routes.Application.login()"><i class="uk-icon-user"></i>&nbsp;Profile</a></li>
+            <li>
+                @defining(Application.getLocalUser(session())) { user=>
+                    @if(user == null){
+                        <a href="@routes.Application.login()"><i class="uk-icon-user"></i>&nbsp;Login</a></li>
+                    } else{
+                        <a href="#"><i class = "uk-icon-user"></i> &nbsp; @user.name</a>
+                    }
+                }
             <li><a href="#"><i class="uk-icon-cog"></i>&nbsp;Settings</a></li>
         </ul>
     </div>

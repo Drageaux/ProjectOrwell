@@ -34,6 +34,7 @@ public class Application extends Controller {
 
 	public static User getLocalUser(final Session session) {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+
 		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
 		return localUser;
 	}
