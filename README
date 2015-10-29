@@ -34,7 +34,7 @@ Deploying on Azure VM
 ==========================
 
 Go to portal.azure.com:
-Get a VM - Standard A1 (1 Core, 1.75 GB memory
+Get an Ubuntu VM - Standard A1 (1 Core, 1.75 GB memory)
 Setup Endpoint HTTP 8080
 
 In VM:
