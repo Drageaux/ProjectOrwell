@@ -34,25 +34,27 @@ Deploying on Azure VM
 ==========================
 
 Go to portal.azure.com:
-Get an Ubuntu VM - Standard A1 (1 Core, 1.75 GB memory)
+Get an Ubuntu Server 14.02 LTS - Standard A1 (1 Core, 1.75 GB memory)
 Setup Endpoint HTTP 8080
 
 In VM:
 SSH into the VM
+
+Install git on VM
+sudo apt-get install git
+
+Clone latest project from repository
 git clone https://github.com/Drageaux/ProjectOrwell.git
 
-Get Java on VM
+Install Java 8 on VM
+sudo add-apt-repository ppa:webupd8team/java -y
 sudo apt-get update
-sudo apt-get install openjdk-8-jre
-sudo apt-get install openjdk-8-jdk
+sudo apt-get install oracle-java8-installer
+sudo apt-get install oracle-java8-set-default
 
-Get sbt on VM
-echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-sudo apt-get update
-sudo apt-get install sbt
+Run activator - Must be in directory ProjectOrwell/
+./activator "run 8080"
 
-To Run:
-sbt 8080
+It will take a long time to install dependencies for the first time running.
 
-Server Running on port 8080
+You should get a success message that the server is running on port 8080.
