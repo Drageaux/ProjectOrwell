@@ -13,6 +13,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 
+import scala.util.parsing.json.JSONObject$;
 import views.html.*;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -53,6 +54,16 @@ public class Application extends Controller {
 
 	public static Result login() {
 		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+	}
+
+//	public static Result webhook(String hook){
+//		System.out.println(hook);
+//		return ok(index.render());
+//	}
+
+	public static Result webhook(){
+		System.out.println("Hit");
+		return ok(index.render());
 	}
 
 	public static Result doLogin() {

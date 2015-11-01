@@ -34,6 +34,8 @@ public class WunderlistAuthUser extends BasicOAuth2AuthUser implements EmailIden
         if(n.has(Constants.NAME)) {
             this.name = n.get(Constants.NAME).asText();
         }
+
+
     }
 
     @Override

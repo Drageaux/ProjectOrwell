@@ -70,9 +70,28 @@ public class WunderlistAuthProvider extends
                     OAuth2AuthProvider.Constants.ERROR).asText());
         } else {
             Logger.debug(result.toString());
+            //JsonNode res = getWunderListWebhook(result, info, clientId);
             return new WunderlistAuthUser(result, info, state);
         }
 
+    }
+
+    private JsonNode getWunderListWebhook(JsonNode result, WunderlistAuthInfo info, String cliendId){
+        JsonNode webhookPost = Json.newObject()
+                .put("list_id", result.get("id").intValue())
+                .put("url", "metaknight.student.rit.edu/webhook/wunderlist")
+                .put("processor_type", "generic")
+                .put("configuration", "");
+
+        final WSResponse r = WS
+                .url("a.wunderlist.com/api/v1/webhooks")
+                .setHeader("X-Client-ID", cliendId)
+                .setHeader("X-Access-Token", OAuth2AuthProvider.Constants.ACCESS_TOKEN)
+                .post(webhookPost)
+                .get(10000);
+
+        System.out.println("Getting Web Hook -------------");
+        return r.asJson();
     }
 
     @Override

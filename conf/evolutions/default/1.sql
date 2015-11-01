@@ -3,11 +3,20 @@
 
 # --- !Ups
 
+create table entries (
+  dtype                     varchar(10) not null,
+  id                        bigint not null,
+  start_time                timestamp,
+  end_time                  timestamp,
+  constraint pk_entries primary key (id))
+;
+
 create table linked_account (
   id                        bigint not null,
   user_id                   bigint,
   provider_user_id          varchar(255),
   provider_key              varchar(255),
+  provider_access_token     varchar(255),
   constraint pk_linked_account primary key (id))
 ;
 
@@ -59,6 +68,8 @@ create table users_user_permission (
   user_permission_id             bigint not null,
   constraint pk_users_user_permission primary key (users_id, user_permission_id))
 ;
+create sequence entries_seq;
+
 create sequence linked_account_seq;
 
 create sequence security_role_seq;
@@ -88,6 +99,8 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists entries;
+
 drop table if exists linked_account;
 
 drop table if exists security_role;
@@ -103,6 +116,8 @@ drop table if exists users_user_permission;
 drop table if exists user_permission;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists entries_seq;
 
 drop sequence if exists linked_account_seq;
 
