@@ -15,6 +15,7 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+import service.WunderlistServicePlugin;
 
 /**
  * Created by Austin on 10/25/2015.
@@ -27,13 +28,15 @@ public class WunderlistAuthProvider extends
     public static final String PROVIDER_KEY = "wunderlist";
     public static final String URL_KEY = "userInfoUrl";
 
-    private static final String TOKEN_HEADER = "X-Access-Token";
-    private static final String CLIENT_ID_HEADER = "X-Client-ID";
+    private final WunderlistServicePlugin service;
+
+
 
 
     @Inject
-    public WunderlistAuthProvider(Application app) {
+    public WunderlistAuthProvider(Application app, WunderlistServicePlugin service) {
         super(app);
+        this.service = service;
     }
 
     @Override
@@ -48,51 +51,22 @@ public class WunderlistAuthProvider extends
         }
     }
 
-
     @Override
     protected AuthUserIdentity transform(WunderlistAuthInfo info, String state) throws AuthException {
-        final String clientId = getConfiguration().getString(CLIENT_ID_KEY);
-        final String url = getConfiguration().getString(URL_KEY);
 
-        final WSResponse r = WS
-                .url(url)
-                .setHeader(TOKEN_HEADER, info.getAccessToken())
-                .setHeader(CLIENT_ID_HEADER, clientId)
-                .setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
-                        info.getAccessToken()).get()
-                .get(getTimeout());
 
-        // Result comes back as an array... for some reason...
-        final JsonNode result = r.asJson().get(0);
+        // Get the user info
+        final JsonNode result = service.getUserInfo(info);
 
-        if (result.get(OAuth2AuthProvider.Constants.ERROR) != null) {
-            throw new AuthException(result.get(
-                    OAuth2AuthProvider.Constants.ERROR).asText());
-        } else {
-            Logger.debug(result.toString());
-            //JsonNode res = getWunderListWebhook(result, info, clientId);
-            return new WunderlistAuthUser(result, info, state);
+        // Create the webhooks
+        for(JsonNode n : service.getLists(info)) {
+            service.createWebhook(info, n.get("id").asLong());
         }
 
+        return new WunderlistAuthUser(result, info, state);
+
     }
 
-    private JsonNode getWunderListWebhook(JsonNode result, WunderlistAuthInfo info, String cliendId){
-        JsonNode webhookPost = Json.newObject()
-                .put("list_id", result.get("id").intValue())
-                .put("url", "metaknight.student.rit.edu/webhook/wunderlist")
-                .put("processor_type", "generic")
-                .put("configuration", "");
-
-        final WSResponse r = WS
-                .url("a.wunderlist.com/api/v1/webhooks")
-                .setHeader("X-Client-ID", cliendId)
-                .setHeader("X-Access-Token", OAuth2AuthProvider.Constants.ACCESS_TOKEN)
-                .post(webhookPost)
-                .get(10000);
-
-        System.out.println("Getting Web Hook -------------");
-        return r.asJson();
-    }
 
     @Override
     public String getKey() {

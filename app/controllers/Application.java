@@ -3,6 +3,7 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
 import play.Routes;
 import play.data.Form;
@@ -56,13 +57,24 @@ public class Application extends Controller {
 		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
-//	public static Result webhook(String hook){
-//		System.out.println(hook);
-//		return ok(index.render());
-//	}
-
 	public static Result webhook(){
-		System.out.println("Hit");
+		System.out.println(request().body().toString());
+		JsonNode body = request().body().asJson();
+		long userId = body.get("client").get("user_id").asLong();
+		String operation = body.get("operation").textValue();
+		if(operation.equals("create")) {
+			// create TaskAction for creation
+		} else if(operation.equals("update")) {
+			boolean afterCompletion = body.get("after").get("completed").asBoolean();
+			boolean beforeCompletion = body.get("before").get("completed").asBoolean();
+
+			if(afterCompletion && !beforeCompletion) {
+				// create TaskAction for completion
+				System.out.println("JOB COMPLETED!");
+			}
+
+		}
+
 		return ok(index.render());
 	}
 
