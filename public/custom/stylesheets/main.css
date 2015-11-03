@@ -1,7 +1,14 @@
+/* General */
 html {
     background: #E9EAED;
     background-size: cover;
 }
+
+.white-background {
+    background-color: white;
+    background-size: cover;
+}
+
 
 /* Top Navigation Bar */
 #topNav {
@@ -37,11 +44,7 @@ html {
 }
 
 
-/* Settings Page Contents (for screens/devices wider than 450px) */
-.white-background {
-    background-color: white;
-    background-size: cover;
-}
+/* Settings Page Contents (for screens/devices wider than 768px) */
 
 .integration-list {
     border-width: thin;
