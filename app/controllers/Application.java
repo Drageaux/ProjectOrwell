@@ -28,11 +28,20 @@ public class Application extends Controller {
 	public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
-	
+
+
+	//================================================================================
+	// Home Page
+	//================================================================================
 	public static Result index() {
 		
 		return ok(index.render());
 	}
+
+
+	//================================================================================
+	// Authentication
+	//================================================================================
 
 	public static User getLocalUser(final Session session) {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
@@ -116,6 +125,22 @@ public class Application extends Controller {
 			return UsernamePasswordAuthProvider.handleSignup(ctx());
 		}
 	}
+
+
+
+	//================================================================================
+	// Integration Settings
+	//================================================================================
+
+	public static Result settings() {
+
+		return ok(integration_settings.render());
+	}
+
+
+	//================================================================================
+	// Miscellaneous
+	//================================================================================
 
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
