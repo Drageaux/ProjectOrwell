@@ -6,6 +6,8 @@ html {
 /* Top Navigation Bar */
 #topNav {
     background-color: #222;
+    position: fixed;
+    z-index: 1;
 }
 
 #topNav a {
@@ -20,12 +22,13 @@ html {
 /* Main Content Area */
 #contentArea {
     display: block;
+    background-color: #E9EAED;
+    background-size: cover;
 }
 
 #dataContainer {
     height: auto;
-    border-width: thin;
-    border-color: black;   
+    margin-top: 40px;
 }
 
 .data-item {
@@ -35,6 +38,11 @@ html {
 
 
 /* Settings Page Contents (for screens/devices wider than 450px) */
+.white-background {
+    background-color: white;
+    background-size: cover;
+}
+
 .integration-list {
     border-width: thin;
     border-radius: 10px;
@@ -57,6 +65,7 @@ html {
 }
 
 .integration-title, .integration-description {
+    position: relative;
     float: left;
     overflow: hidden;
     text-overflow: ellipsis;   
