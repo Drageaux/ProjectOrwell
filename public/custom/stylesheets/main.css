@@ -23,12 +23,41 @@ html {
 }
 
 #dataContainer {
+    height: auto;
     border-width: thin;
     border-color: black;   
-    height: auto;
 }
 
 .data-item {
     background-color: white;
     box-shadow: 0px 0px 3px #888888;
+}
+
+
+/* Settings Page Contents (for screens/devices wider than 450px) */
+.integration-list {
+    border-width: thin;
+    border-radius: 10px;
+}
+
+.integration-item {
+/*
+    position: relative;
+    margin-top: 30px;
+*/
+}
+
+.integration-icon {
+    float: left;
+    min-width: 48px;
+}
+
+.integration-title {
+    margin-top: 11px;   
+}
+
+.integration-title, .integration-description {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;   
 }

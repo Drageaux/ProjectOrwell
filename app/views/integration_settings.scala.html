@@ -8,13 +8,29 @@
 
 <!-- Display main app data -->
 @display = {
-    <!--
-        - centered container
-        - size: 2/3 screen width (grid won't stack without small/medium/large width indication)
-        - margin: large margin both top and bottom
-        - position: at the top
-    //-->
-    <div class="uk-container-center uk-width-3-4 uk-position-top uk-margin-medium-bottom" id="dataContainer">
-        something
+    
+    <!-- Centering the displays for integrations --> 
+    <div class="uk-container-center uk-width-3-5 uk-position-top uk-margin-medium-bottom">
+        <ul class="uk-list uk-list-line integration-list">
+            <li class="integration-item">
+                <!-- Icon, title, and description --> 
+                <div class="uk-width-8-10" style="float:left">
+                    <img class="integration-icon" src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-48.png" alt="ME">
+                    <div class="integration-title">
+                        <h2 class="uk-text-bold uk-margin-bottom-remove">&nbsp;Facebook</h2>
+                    </div>
+                    
+                    <div class="integration-description uk-width-1-1 uk-margin-small-top">
+                        <p class="uk-text-primary">Share photos and videos, send messages and get updates.</p>
+                    </div>
+                </div>
+                <div class="uk-width-2-10 uk-height-1-1" style="float:right">
+                    <button class="uk-button uk-button-primary uk-width-4-5 uk-height-1-1 uk-margin-small" style="float:left" href="#">Connect</a>
+                    <button class="uk-button uk-button-primary uk-width-4-5 uk-height-1-1" style="float:left" href="#" disabled>Enable</a>
+                </div>
+            </li>
+            
+            
+        </ul>
     </div>
 }
