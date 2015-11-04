@@ -5,8 +5,11 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
+import models.entries.Entry;
+import models.entries.TaskEntry;
 import play.Routes;
 import play.data.Form;
+import play.db.DB;
 import play.mvc.*;
 import play.mvc.Http.Session;
 import play.mvc.Result;
@@ -81,19 +84,38 @@ public class Application extends Controller {
 	}
 
 	public static Result webhook(){
-		System.out.println(request().body().toString());
+
 		JsonNode body = request().body().asJson();
 		long userId = body.get("client").get("user_id").asLong();
 		String operation = body.get("operation").textValue();
+
 		if(operation.equals("create")) {
+			String time = body.get("after").get("created_at").asText() ;
+			//Format the string to remove non-parseable letters
+			time = time.substring(0, time.indexOf("T")) + " " + time.substring(time.indexOf("T") + 1);
+			time = time.substring(0, time.length()-1) ;
 			// create TaskAction for creation
+			Entry entry = TaskEntry.create(userId, time, time, "created") ;
+			entry.save() ;
+			System.out.println("Created TaskEntry for creation") ;
 		} else if(operation.equals("update")) {
 			boolean afterCompletion = body.get("after").get("completed").asBoolean();
 			boolean beforeCompletion = body.get("before").get("completed").asBoolean();
 
 			if(afterCompletion && !beforeCompletion) {
+				String start_time = body.get("before").get("created_at").asText() ;
+				start_time = start_time.substring(0, start_time.indexOf("T")) + " " + start_time.substring(start_time.indexOf("T") + 1);
+				start_time = start_time.substring(0, start_time.length()-1) ;
+
+				String end_time = body.get("after").get("updated_at").asText() ;
+				end_time = end_time.substring(0, end_time.indexOf("T")) + " " + end_time.substring(end_time.indexOf("T") + 1);
+				end_time = end_time.substring(0, end_time.length()-1) ;
+
 				// create TaskAction for completion
-				System.out.println("JOB COMPLETED!");
+				Entry entry = TaskEntry.create(userId, start_time, end_time, "completed") ;
+				entry.save() ;
+				System.out.println(Entry.find.all()) ;
+				System.out.println("Created TaskEntry for completion") ;
 			}
 
 		}
