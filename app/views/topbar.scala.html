@@ -1,21 +1,21 @@
+    
+@defining(Application.getLocalUser(session())) { user=>
+    @if(user == null){
 
-<nav class="uk-navbar uk-width-1-1" id="topNav">
-    <a href="/" class="uk-navbar-brand uk-contrast">Orwell</a>
+    } else{
+        <nav class="uk-navbar uk-width-1-1" id="topNav">
 
-    <div class="uk-navbar-flip">
-        <ul class="uk-navbar-nav">
-<!--             Links will have a hand icon when hovered if href leads somewhere -->
-            <li><a href="/"><i class="uk-icon-home"></i>&nbsp;Home</a></li>
-            <li>
-                @defining(Application.getLocalUser(session())) { user=>
-                    @if(user == null){
-                        <a href="@routes.Application.login()"><i class="uk-icon-user"></i>&nbsp;Login</a></li>
-                    } else{
-                        <a href="#"><i class = "uk-icon-user"></i> &nbsp; @user.name</a>
-                    }
-                }
-            <li><a href="/settings"><i class="uk-icon-cog"></i>&nbsp;Settings</a></li>
-            <li><a href="/logout"><i class="uk-icon-sign-out"></i>&nbsp;Log Out</a></li>
-        </ul>
-    </div>
-</nav>
+            <a href="/" class="uk-navbar-brand uk-contrast">Orwell</a>
+
+            <div class="uk-navbar-flip">
+                <ul class="uk-navbar-nav">
+<!--                     Links will have a hand icon when hovered if href leads somewhere -->
+                    <li><a href="/"><i class="uk-icon-home"></i>&nbsp;Home</a></li>
+                    <li><a href="#"><i class = "uk-icon-user"></i> &nbsp; @user.name</a></li>    
+                    <li><a href="/settings"><i class="uk-icon-cog"></i>&nbsp;Settings</a></li>
+                    <li><a href="/logout"><i class="uk-icon-sign-out"></i>&nbsp;Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+    }
+}

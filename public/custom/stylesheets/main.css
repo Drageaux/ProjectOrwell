@@ -12,9 +12,9 @@ html {
 
 /* Top Navigation Bar */
 #topNav {
-    background-color: #222;
     position: fixed;
     z-index: 1;
+    background-color: #222;
 }
 
 #topNav a {
@@ -26,6 +26,35 @@ html {
 }
 
 
+/* Welcome/Login Page */
+#welcomeBackground {
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.7), 
+            rgba(0, 0, 0, 0.7)
+        ),
+        url("http://pre09.deviantart.net/108b/th/pre/f/2010/146/a/0/forerunner_tile_by_invaderveex.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#welcomeMessage {
+    position: relative;
+    top: 42%;
+    background: rgba(0, 0, 0, 0.7);
+/*    width: 480px;*/
+    height: 100px;
+    margin: auto;
+    padding: 10px 0 12px 0;
+}
+
+#welcomeMessage h1, a {
+    color: white;   
+}
+
+
+
 /* Main Content Area */
 #contentArea {
     display: block;
@@ -34,8 +63,8 @@ html {
 }
 
 #dataContainer {
-    height: auto;
     margin-top: 40px;
+    height: auto;
 }
 
 .data-item {
@@ -52,10 +81,7 @@ html {
 }
 
 .integration-item {
-/*
     position: relative;
-    margin-top: 30px;
-*/
 }
 
 .integration-icon {
@@ -68,8 +94,5 @@ html {
 }
 
 .integration-title, .integration-description {
-    position: relative;
     float: left;
-    overflow: hidden;
-    text-overflow: ellipsis;   
 }
