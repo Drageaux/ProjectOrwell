@@ -26,6 +26,8 @@ public class LinkedAccount extends AppModel {
 
 	public String providerAccessToken;
 
+	public Boolean displayHidden;
+
 	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
 			Long.class, LinkedAccount.class);
 
