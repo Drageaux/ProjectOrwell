@@ -4,14 +4,18 @@
 
 # Home page
 GET         /                                      controllers.Application.index
+GET         /home                                  controllers.Application.index
+GET         /index                                 controllers.Application.index
 GET         /restricted                            controllers.Application.restricted
 GET         /assets/javascript/routes.js           controllers.Application.jsRoutes
 
 GET         /profile                               controllers.Application.profile
 
 GET         /login                                 controllers.Application.login
-POST        /login                                 controllers.Application.doLogin
+#POST        /login                                 controllers.Application.doLogin
 
+
+# logout should have :provider
 GET         /logout                                com.feth.play.module.pa.controllers.Authenticate.logout
 GET         /authenticate/:provider                com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 

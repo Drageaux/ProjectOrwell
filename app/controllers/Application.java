@@ -33,10 +33,17 @@ public class Application extends Controller {
 	//================================================================================
 	// Home Page
 	//================================================================================
-	public static Result index() {
+
+    public static Result index() {
+        
+        final User localUser = getLocalUser(session());
+        
+        if(localUser == null) {
+			return redirect("/login");
+		}
 		
 		return ok(index.render());
-	}
+    }
 
 
 	//================================================================================
@@ -56,14 +63,21 @@ public class Application extends Controller {
 		return ok(restricted.render(localUser));
 	}
 
+	public static Result login() {
+
+		final User localUser = getLocalUser(session());
+
+		if(localUser == null) {
+			return ok(login.render());
+		}
+
+		return redirect("/login");
+	}
+
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result profile() {
 		final User localUser = getLocalUser(session());
 		return ok(profile.render(localUser));
-	}
-
-	public static Result login() {
-		return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
 	public static Result webhook(){
@@ -87,6 +101,8 @@ public class Application extends Controller {
 		return ok(index.render());
 	}
 
+    
+    /**
 	public static Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
@@ -99,6 +115,7 @@ public class Application extends Controller {
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
 		}
 	}
+    */
 
 	public static Result signup() {
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
@@ -133,6 +150,12 @@ public class Application extends Controller {
 	//================================================================================
 
 	public static Result settings() {
+
+		final User localUser = getLocalUser(session());
+
+		if(localUser == null) {
+			return redirect("/");
+		}
 
 		return ok(integration_settings.render());
 	}
