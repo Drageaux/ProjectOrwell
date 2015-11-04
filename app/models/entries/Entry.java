@@ -1,6 +1,5 @@
 package models.entries;
 
-import com.avaje.ebean.Model;
 import models.AppModel;
 import models.LinkedAccount;
 import play.data.format.Formats;
@@ -19,9 +18,11 @@ import java.util.Date;
 @Entity
 @Table(name = "entries")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "ENTRY_TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Entry extends AppModel {
 
     @Id
+    @GeneratedValue
     public Long id;
 
     @ManyToMany
@@ -34,18 +35,37 @@ public class Entry extends AppModel {
     public Date endTime;
 
 
-    public Entry(){
-        //Default Constructor
-    }
-    public Entry(LinkedAccount linkedAccount, Date startTime, Date endTime){
-        this.linkedAccount = linkedAccount ;
-        this.startTime = startTime ;
-        this.endTime = endTime ;
-    }
+    public static Finder<Long, Entry> find = new Finder<Long, Entry>(
+            Long.class, Entry.class
+    );
 
 
     public boolean isInstantaneous() {
         return startTime == endTime;
+    }
+
+    // Linked Account getter/setter
+    public LinkedAccount getLinkedAccount(){
+        return this.linkedAccount ;
+    }
+    public void setLinkedAccount(LinkedAccount acct){
+        this.linkedAccount = acct ;
+    }
+
+    // Start Time getter/setter
+    public Date getStartTime(){
+        return this.startTime ;
+    }
+    public void setStartTime(Date time){
+        this.startTime = time ;
+    }
+
+    // End Time getter/setter
+    public Date getEndTime(){
+        return this.endTime ;
+    }
+    public void setEndTime(Date time){
+        this.endTime = time ;
     }
 
 }
