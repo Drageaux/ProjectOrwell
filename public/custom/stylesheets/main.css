@@ -1,10 +1,26 @@
+/* General */
 html {
+    min-width: 480px;
     background: #E9EAED;
     background-size: cover;
 }
 
+.white-background {
+    background-color: white;
+    background-size: cover;
+}
+
+#contentArea {
+    display: block;
+    background-color: #E9EAED;
+    background-size: cover;
+}
+
+
 /* Top Navigation Bar */
 #topNav {
+    position: fixed;
+    z-index: 1;
     background-color: #222;
 }
 
@@ -17,15 +33,54 @@ html {
 }
 
 
-/* Main Content Area */
-#contentArea {
-    display: block;
+/* Welcome/Login Page */
+#welcomeBackground {
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.7), 
+            rgba(0, 0, 0, 0.7)
+        ),
+        url("http://pre09.deviantart.net/108b/th/pre/f/2010/146/a/0/forerunner_tile_by_invaderveex.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+#welcomeMessage {
+    position: relative;
+    top: 42%;
+    margin: auto;
+    padding: 10px 0 20px 0;
+/*    width: 480px;*/
+    height: 100px;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+#welcomeMessage h1, a {
+    color: white; 
+}
+
+#welcomeMessage h1,ul {
+/*    min-width: 480px;   */
+}
+
+#welcomeMessage li {
+    margin: auto;
+    padding-bottom: 12px;   
+    width: 200px;
+    text-overflow: clip;
+}
+
+#getStarted {
+    top: 0;
+}
+
+
+/* Main Content Area */
 #dataContainer {
+    margin-top: 40px;
     height: auto;
-    border-width: thin;
-    border-color: black;   
+    filter: alpha(opacity=0);
 }
 
 .data-item {
@@ -34,17 +89,15 @@ html {
 }
 
 
-/* Settings Page Contents (for screens/devices wider than 450px) */
+/* Settings Page Contents (for screens/devices wider than 768px) */
+
 .integration-list {
     border-width: thin;
     border-radius: 10px;
 }
 
 .integration-item {
-/*
     position: relative;
-    margin-top: 30px;
-*/
 }
 
 .integration-icon {
@@ -58,6 +111,4 @@ html {
 
 .integration-title, .integration-description {
     float: left;
-    overflow: hidden;
-    text-overflow: ellipsis;   
 }
