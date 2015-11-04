@@ -76,7 +76,7 @@ public class WunderlistServicePlugin extends Plugin {
     public JsonNode getLists(OAuth2AuthInfo authInfo) {
         final WSResponse r = genRequest(config.getString("lists"), authInfo).get().get(timeout);
 
-        System.out.println(r.getBody());
+        //System.out.println(r.getBody());
         return r.asJson();
     }
 
@@ -92,7 +92,7 @@ public class WunderlistServicePlugin extends Plugin {
         long revision = getList(authInfo, listId).get("revision").asLong();
 
         for(JsonNode hook : getWebhooks(authInfo, listId)) {
-            System.out.println(hook);
+            //System.out.println(hook);
             deleteWebhook(authInfo, hook.get("id").asLong(), revision);
         }
 
@@ -108,7 +108,7 @@ public class WunderlistServicePlugin extends Plugin {
                 .post(webhookPost)
                 .get(timeout);
 
-        System.out.println(r.getBody());
+        //System.out.println(r.getBody());
     }
 
     public void deleteWebhook(OAuth2AuthInfo authInfo, long hookId, long revision) {

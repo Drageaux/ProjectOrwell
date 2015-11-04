@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
+import models.entries.TaskEntry;
 import play.Routes;
 import play.data.Form;
 import play.mvc.*;
@@ -67,18 +68,24 @@ public class Application extends Controller {
 	}
 
 	public static Result webhook(){
-		System.out.println(request().body().toString());
+
 		JsonNode body = request().body().asJson();
 		long userId = body.get("client").get("user_id").asLong();
 		String operation = body.get("operation").textValue();
+
 		if(operation.equals("create")) {
+			String time = body.get("after").get("created_at").asText() ;
 			// create TaskAction for creation
+			TaskEntry.create(userId, time, time, "created") ;
 		} else if(operation.equals("update")) {
 			boolean afterCompletion = body.get("after").get("completed").asBoolean();
 			boolean beforeCompletion = body.get("before").get("completed").asBoolean();
 
 			if(afterCompletion && !beforeCompletion) {
+				String start_time = body.get("before").get("created_at").asText() ;
+				String end_time = body.get("after").get("updated_at").asText() ;
 				// create TaskAction for completion
+				TaskEntry.create(userId, start_time, end_time, "completed") ;
 				System.out.println("JOB COMPLETED!");
 			}
 

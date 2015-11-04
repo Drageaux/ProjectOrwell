@@ -33,6 +33,17 @@ public class Entry extends AppModel {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date endTime;
 
+
+    public Entry(){
+        //Default Constructor
+    }
+    public Entry(LinkedAccount linkedAccount, Date startTime, Date endTime){
+        this.linkedAccount = linkedAccount ;
+        this.startTime = startTime ;
+        this.endTime = endTime ;
+    }
+
+
     public boolean isInstantaneous() {
         return startTime == endTime;
     }
