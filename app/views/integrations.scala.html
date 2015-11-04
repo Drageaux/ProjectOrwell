@@ -4,7 +4,7 @@
         <li class="integration-item uk-container-center">
             <!-- Icon, title, and description -->
             <div class="uk-grid">
-                <div class="uk-grid-collapse uk-width-medium-8-10">
+                <div class="uk-grid-collapse uk-width-medium-7-10">
                     <img class="integration-icon" src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-48.png" alt="ME">
                     <div class="integration-title">
                         <h2 class="uk-text-bold uk-margin-bottom-remove">&nbsp;Facebook</h2>
@@ -16,20 +16,7 @@
                 </div>
 
                 <!-- Button -->
-                <div class="uk-grid-collapse uk-width-medium-2-10 uk-container-center uk-vertical-align uk-margin-remove uk-padding-remove" style="min-width: 87px; float: right">
-                    @defining(Application.getLocalUser(session())) { user=>
-                        @if(user == null){
-                            <a type=button href="/authenticate/facebook" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" style="float:right; overflow:visible">
-                                Connect
-                            </a>
-                        } else{
-                            <a type=button href="#" class="uk-width-1-1 uk-button-large uk-button-danger uk-margin-small" style="float:right; overflow:visible; text-align: center">
-                                Disconnect
-                            </a>
-                        }
-                    }
-                    <!--<button class="uk-button uk-button-primary uk-width-4-5 uk-height-1-1" style="float:left" href="#" disabled>Enable</a>-->
-                </div>
+                @integration_buttons("facebook")
             </div>
         </li>
 
@@ -37,7 +24,7 @@
         <li class="integration-item uk-container-center">
             <!-- Icon, title, and description -->
             <div class="uk-grid uk-margin-top">
-                <div class="uk-grid-collapse uk-width-medium-8-10">
+                <div class="uk-grid-collapse uk-width-medium-7-10">
                     <img class="integration-icon" src="http://icons.iconarchive.com/icons/bokehlicia/pacifica/48/wunderlist-icon.png" alt="ME">
                     <div class="integration-title">
                         <h2 class="uk-text-bold uk-margin-bottom-remove">&nbsp;Wunderlist</h2>
@@ -49,20 +36,7 @@
                 </div>
 
                 <!-- Button -->
-                <div class="uk-grid-collapse uk-width-medium-2-10 uk-container-center uk-vertical-align uk-margin-remove uk-padding-remove" style="min-width: 87px; float: right">
-                    @defining(Application.getLocalUser(session())) { user=>
-                        @if(user == null){
-                            <a type=button href="/authenticate/wunderlist" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" style="float:right; overflow:visible">
-                                Connect
-                            </a>
-                        } else{
-                            <a type=button href="#" class="uk-width-1-1 uk-button-large uk-button-danger uk-margin-small" style="float:right; overflow:visible; text-align: center">
-                                Disconnect
-                            </a>
-                        }
-                    }
-                    <!--<button class="uk-button uk-button-primary uk-width-4-5 uk-height-1-1" style="float:left" href="#" disabled>Enable</a>-->
-                </div>
+                @integration_buttons("wunderlist")
             </div>
         </li>
     </ul>
