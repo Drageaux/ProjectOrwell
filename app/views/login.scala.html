@@ -64,14 +64,16 @@
     <div class="uk-height-viewport uk-text-center uk-container-center" id="welcomeBackground">
         <div id="welcomeMessage">
             <h1>Welcome to Orwell!</h1>
-            <a href="#getStarted" class="uk-button uk-button-large uk-button-success" data-uk-smooth-scroll="{}">Get Started</a>
+            <ul class="uk-nav" data-uk-scrollspy-nav="{closest:'li', smoothscroll: true}">
+                <li>
+                    <a href="#getStarted" class="uk-button uk-button-large uk-button-success" data-uk-smooth-scroll>Get Started</a>
+                </li>
+            </ul>
         </div>
     </div>
             
 
-<!--    </div>-->
-
-    <div class="uk-heigh-viewport">
+    <div class="uk-height-viewport uk-block uk-block-large" id="getStarted">
         @integrations()
     </div>
 }

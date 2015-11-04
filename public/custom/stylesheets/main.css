@@ -1,11 +1,18 @@
 /* General */
 html {
+    min-width: 480px;
     background: #E9EAED;
     background-size: cover;
 }
 
 .white-background {
     background-color: white;
+    background-size: cover;
+}
+
+#contentArea {
+    display: block;
+    background-color: #E9EAED;
     background-size: cover;
 }
 
@@ -42,29 +49,38 @@ html {
 #welcomeMessage {
     position: relative;
     top: 42%;
-    background: rgba(0, 0, 0, 0.7);
+    margin: auto;
+    padding: 10px 0 20px 0;
 /*    width: 480px;*/
     height: 100px;
-    margin: auto;
-    padding: 10px 0 12px 0;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 #welcomeMessage h1, a {
-    color: white;   
+    color: white; 
 }
 
+#welcomeMessage h1,ul {
+/*    min-width: 480px;   */
+}
+
+#welcomeMessage li {
+    margin: auto;
+    padding-bottom: 12px;   
+    width: 200px;
+    text-overflow: clip;
+}
+
+#getStarted {
+    top: 0;
+}
 
 
 /* Main Content Area */
-#contentArea {
-    display: block;
-    background-color: #E9EAED;
-    background-size: cover;
-}
-
 #dataContainer {
     margin-top: 40px;
     height: auto;
+    filter: alpha(opacity=0);
 }
 
 .data-item {

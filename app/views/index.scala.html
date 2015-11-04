@@ -1,8 +1,15 @@
 
-@main(title = "Home") {
-    <div class="uk-position-cover uk-margin-top" id="contentArea">
-        @display
-    </div>
+@defining(Application.getLocalUser(session())) { user=>
+    @if(user == null){
+        <!-- Redirect to login.scala.html -->
+    } else{
+        @main(title = "Home") {
+            <div class="uk-position-cover uk-margin-top" id="contentArea">
+                @display
+            </div>
+        }
+    
+    }
 }
 
 
@@ -27,7 +34,7 @@
                     <br>
                 </article>
             </li>
-            
+
             <!-- Consider hashtags for Instagram -->
             <li class="uk-animation-slide-right uk-animation data-item">
                 <article class="uk-article uk-width-9-10 uk-container-center">
@@ -44,7 +51,7 @@
                     <br>
                 </article>
             </li>
-            
+
             <!-- Small margin title & no initial break before a Wunderlist/no-image article -->
             <li class="uk-animation-slide-right uk-animation data-item">
                 <article class="uk-article uk-width-9-10 uk-container-center">
