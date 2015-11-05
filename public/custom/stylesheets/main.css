@@ -23,6 +23,11 @@ html {
     background-size: cover;
 }
 
+.colored-border {
+    border-style: solid;
+    border-width: medium;
+    border-color: goldenrod;
+}
 
 /* Top Navigation Bar */
 #topNav {
@@ -69,7 +74,7 @@ html {
 }
 
 #welcomeMessage h1, a {
-    color: white; 
+    color: white;
 }
 
 #welcomeMessage li {
