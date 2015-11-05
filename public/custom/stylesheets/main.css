@@ -44,8 +44,8 @@ html {
 #welcomeBackground {
     background:
         linear-gradient(
-            rgba(0, 0, 0, 0.7), 
-            rgba(0, 0, 0, 0.7)
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
         ),
         url("http://pre09.deviantart.net/108b/th/pre/f/2010/146/a/0/forerunner_tile_by_invaderveex.jpg");
     background-position: center;
@@ -59,7 +59,7 @@ html {
     margin: auto;
     padding: 15px 0 25px 0;
     height: 100px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
 }
 
 #welcomeMessage h1 {
