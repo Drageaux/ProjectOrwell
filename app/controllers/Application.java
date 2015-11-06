@@ -2,6 +2,7 @@ package controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
@@ -34,7 +35,7 @@ public class Application extends Controller {
 
 
 	//================================================================================
-	// Home Page
+	// Display Page
 	//================================================================================
 
     public static Result index() {
@@ -44,46 +45,19 @@ public class Application extends Controller {
         if(localUser == null) {
 			return redirect("/login");
 		}
-		
+
+
+//		List<Entry> entries = TaskEntry.find.where().eq("", ).findList();
+//		List<Entry> entries = TaskEntry.find.fetch("linkedAccount", "user").where().ieq("linkedAccount.user", ""+localUser.id).findList();
+
+//		TaskEntry.find.findList().d
+
+//		return ok(index.render(entries));
 		return ok(index.render());
     }
 
 
-	//================================================================================
-	// Authentication
-	//================================================================================
-
-	public static User getLocalUser(final Session session) {
-		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
-
-		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
-		return localUser;
-	}
-
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result restricted() {
-		final User localUser = getLocalUser(session());
-		return ok(restricted.render(localUser));
-	}
-
-	public static Result login() {
-
-		final User localUser = getLocalUser(session());
-
-		if(localUser == null) {
-			return ok(login.render());
-		}
-
-		return redirect("/login");
-	}
-
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result profile() {
-		final User localUser = getLocalUser(session());
-		return ok(profile.render(localUser));
-	}
-
-	public static Result webhook(){
+    public static Result webhook(){
 
 		JsonNode body = request().body().asJson();
 		long userId = body.get("client").get("user_id").asLong();
@@ -120,9 +94,44 @@ public class Application extends Controller {
 
 		}
 
-		return ok(index.render());
+		return index();
 	}
 
+	//================================================================================
+	// Authentication
+	//================================================================================
+
+	public static User getLocalUser(final Session session) {
+		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+
+		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+		return localUser;
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
+	public static Result restricted() {
+		final User localUser = getLocalUser(session());
+		return ok(restricted.render(localUser));
+	}
+
+	public static Result login() {
+
+		final User localUser = getLocalUser(session());
+
+		if(localUser == null) {
+			return ok(login.render());
+		}
+
+		return redirect("/");
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
+	public static Result profile() {
+		final User localUser = getLocalUser(session());
+		return ok(profile.render(localUser));
+	}
+
+	
     
     /**
 	public static Result doLogin() {

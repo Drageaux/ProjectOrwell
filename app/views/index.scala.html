@@ -1,16 +1,12 @@
+<!--   Use this to take the args passed from Application's index.render(entries) -->
+<!--   @(entries: List[models.entriesTaskEntry]) -->
 
-@defining(Application.getLocalUser(session())) { user=>
-    @if(user == null){
-        <!-- Redirect to login.scala.html -->
-    } else{
-        @main(title = "Home") {
-            <div class="uk-position-cover uk-margin-top" id="contentArea">
-                @display
-            </div>
-        }
-    
-    }
+@main(title = "Home") {
+    <div class="uk-position-cover uk-margin-top" id="contentArea">
+        @display
+    </div>
 }
+    
 
 
 <!-- Display main app data -->
@@ -18,6 +14,11 @@
     <div class="uk-position-top uk-margin-medium-bottom" id="dataContainer">
         <!-- List of posts is 3/4 the width of the screen -->
         <ul class="uk-list uk-container-center uk-width-3-4 uk-list-line">
+
+            <!--For each entry found, call this -->
+            <!--@entry_item(entry)-->
+
+
             <!-- Consider grids of thumbnail for multiple picture uploads -->
             <li class="uk-animation-slide-right uk-animation data-item">
                 <article class="uk-article uk-width-9-10 uk-container-center">
