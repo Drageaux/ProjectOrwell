@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.javafx.tk.Toolkit;
 import models.User;
 import models.entries.Entry;
 import models.entries.TaskEntry;
@@ -67,7 +66,10 @@ public class Application extends Controller {
     public static Result webhook(){
 
 		JsonNode body = request().body().asJson();
+		System.out.println(body.toString());
 		long userId = body.get("client").get("user_id").asLong();
+		String title = body.get("after").get("title").asText();
+
 		String operation = body.get("operation").textValue();
 
 		if(operation.equals("create")) {
@@ -76,7 +78,7 @@ public class Application extends Controller {
 			time = time.substring(0, time.indexOf("T")) + " " + time.substring(time.indexOf("T") + 1);
 			time = time.substring(0, time.length()-1) ;
 			// create TaskAction for creation
-			Entry entry = TaskEntry.create(userId, time, time, "created") ;
+			Entry entry = TaskEntry.create(userId, title, time, "created") ;
 			entry.save() ;
 			System.out.println("Created TaskEntry for creation") ;
 		} else if(operation.equals("update")) {
@@ -93,7 +95,7 @@ public class Application extends Controller {
 				end_time = end_time.substring(0, end_time.length()-1) ;
 
 				// create TaskAction for completion
-				Entry entry = TaskEntry.create(userId, start_time, end_time, "completed") ;
+				Entry entry = TaskEntry.create(userId, title ,start_time, "completed") ;
 				entry.save() ;
 				System.out.println(Entry.find.all()) ;
 				System.out.println("Created TaskEntry for completion") ;

@@ -4,10 +4,13 @@
 # --- !Ups
 
 create table entries (
-  dtype                     varchar(10) not null,
+  entry_type                varchar(31) not null,
   id                        bigint not null,
   start_time                timestamp,
   end_time                  timestamp,
+  task_type                 varchar(255),
+  list_name                 varchar(255),
+  task_name                 varchar(255),
   constraint pk_entries primary key (id))
 ;
 

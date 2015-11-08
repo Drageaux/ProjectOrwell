@@ -34,27 +34,27 @@ public class TaskEntry extends Entry {
      *                          if the type is creation.
      * @param type  -           The type of the TaskEntry being created: 'created' or 'completed'
      */
-    public static TaskEntry create(long linkedAccountId, String startTimeStr, String endTimeStr, String type){
+    public static TaskEntry create(long linkedAccountId, String taskName, String time, String type){
         //Find the LinkedAccount object using the id
         LinkedAccount linked = LinkedAccount.find.byId(linkedAccountId) ;
+
 
         //Format the date string to the Date object.
         //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
         Date startTime = null, endTime = null ;
         try{
-            startTime =  df.parse(startTimeStr);
-            endTime = df.parse(endTimeStr) ;
+            startTime =  df.parse(time);
         } catch(ParseException e){
             e.printStackTrace();
         }
 
         TaskEntry task = new TaskEntry() ;
         task.setStartTime(startTime);
-        task.setEndTime(endTime);
+        task.setEndTime(startTime);
         task.setLinkedAccount(linked);
         task.setTaskType(type);
-
+        task.setTaskName(taskName);
         return task ;
     }
 
