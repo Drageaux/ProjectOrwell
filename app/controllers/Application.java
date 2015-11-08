@@ -1,10 +1,12 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.javafx.tk.Toolkit;
 import models.User;
 import models.entries.Entry;
 import models.entries.TaskEntry;
@@ -51,9 +53,14 @@ public class Application extends Controller {
 //		List<Entry> entries = TaskEntry.find.fetch("linkedAccount", "user").where().ieq("linkedAccount.user", ""+localUser.id).findList();
 
 //		TaskEntry.find.findList().d
+		List<Entry> tasks = TaskEntry.find.all();
+		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
+		for (int i=0; i<tasks.size();i++){
+			taskEntries.add((TaskEntry)tasks.get(tasks.size()-i-1));
+		}
 
 //		return ok(index.render(entries));
-		return ok(index.render());
+		return ok(index.render(taskEntries));
     }
 
 
