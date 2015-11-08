@@ -25,7 +25,7 @@
             @for(taskEntry <- taskEntries){
                 <li class="uk-animation-slide-right uk-animation data-item">
                     <article class="uk-article uk-width-9-10 uk-container-center uk-grid">
-                        <div class="uk-width-1-3">
+                        <div class="uk-width-4-10">
                             <br>
                             @taskEntry.getTaskType match{
                                 case "created" => {<div class="uk-badge">Task Created</div>}
@@ -36,13 +36,14 @@
                                 <b>
                                 via Wunderlist
                                 <img src="http://a2.mzstatic.com/us/r30/Purple3/v4/f4/51/91/f451919c-1b82-b2b3-4fce-0968b4eaddef/icon128.png" alt="WL" width="20px">
-                                in List @taskEntry.getListName() @taskEntry.getListName()
+                                in List @taskEntry.getListName() <br>
+                                @taskEntry.getStartTime()
                                 </b>
                             </p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             <br>
                         </div>
-                        <div class="uk-width-2-3">
+                        <div class="uk-width-6-10">
                             <div class="uk-slidenav-position">
                                 <ul class="uk-slideshow">
                                     <li><img src="http://placekitten.com/120/141" alt=""></li>
