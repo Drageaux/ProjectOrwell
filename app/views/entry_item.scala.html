@@ -1,19 +1,59 @@
-@(entry: models.entries.Entry)
+@(taskEntry: entries.TaskEntry)
+@import java.text.SimpleDateFormat
 
-<!-- Pass in a single entry -->
-<li class="uk-animation-slide-right uk-animation data-item">
-    <article class="uk-article uk-width-9-10 uk-container-center">
-        <br>
-        <img class="uk-thumbnail uk-thumbnail-large" src="http://stream1.gifsoup.com/view1/1371188/poreotics-o.gif" alt="ME">
-        <p class="uk-article-meta uk-margin-small-top">
-            <b>
-            via Facebook
-            <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-16.png">
-            at 11:30PM
+
+<li class="uk-margin-small-top uk-animation-slide-right uk-animation data-item">    
+    <article class="uk-article uk-width-9-10 uk-container-center uk-grid">
+        <div class="uk-width-1-1">
+            <div class="uk-float-left uk-width-7-10">
+                @taskEntry.getTaskType match{
+                    case "created" => {<div class="uk-badge">Task Created</div>}
+                    case "completed" => {<div class="uk-badge uk-badge-success">Task Completed</div>}
+                }
+                
+            </div>
+            <div class="uk-float-right uk-width-3-10">
+                <p class="uk-article-meta uk-text-right uk-margin-medium">
+                    <b>
+                        @(new SimpleDateFormat("h:mm a, MMM dd, yyyy").format(taskEntry.getStartTime()))
+                        <br>
+                    </b>
+                </p>
+            </div>
+        </div>
+            
+        <div class="uk-width-1-1">
+            <h2 class="uk-article-title uk-margin-small">@taskEntry.getTaskName()</h2>
+        </div>
+        
+        <div class="uk-width-1-1">
+            <b class="uk-article-meta uk-text-right uk-align-right">
+                via Wunderlist
+                <img src="http://a2.mzstatic.com/us/r30/Purple3/v4/f4/51/91/f451919c-1b82-b2b3-4fce-0968b4eaddef/icon128.png" alt="WL" width="20px">
+                @*in List @taskEntry.getListName()*@
             </b>
-        </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <br>
+        </div>
+        
+        
+            
+
+        <!-- Images if available-->
+        @* Commented out
+        <div class="uk-width-6-10">
+            <div data-uk-slideset="{small: 1, medium: 2, large: 3}">
+                <div class="uk-slidenav-position">
+                    <ul class="uk-grid uk-slideset">
+                        <li><a href="http://placekitten.com/124/141" data-uk-lightbox><a/></a><img src="http://placekitten.com/121/141" alt=""></li>
+                        <li><img src="http://placekitten.com/125/141" alt=""></li>
+                        <li><img src="http://placekitten.com/120/141" alt=""></li>
+                        <li><img src="http://placekitten.com/126/141" alt=""></li>
+                        <li><img src="http://placekitten.com/127/141" alt=""></li>
+                    </ul>
+                    <a href="" class="uk-slidenav uk-slidenav-previous" data-uk-slideset-item="previous"></a>
+                    <a href="" class="uk-slidenav uk-slidenav-next" data-uk-slideset-item="next"></a>
+                </div>
+            </div>
+        </div>
+        *@
     </article>
 </li>
-

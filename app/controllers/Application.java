@@ -39,26 +39,17 @@ public class Application extends Controller {
 	// Display Page
 	//================================================================================
 
+	@Restrict(@Group(Application.USER_ROLE))
     public static Result index() {
-        
+
         final User localUser = getLocalUser(session());
-        
-        if(localUser == null) {
-			return redirect("/login");
-		}
 
-
-//		List<Entry> entries = TaskEntry.find.where().eq("", ).findList();
-//		List<Entry> entries = TaskEntry.find.fetch("linkedAccount", "user").where().ieq("linkedAccount.user", ""+localUser.id).findList();
-
-//		TaskEntry.find.findList().d
 		List<Entry> tasks = TaskEntry.find.all();
 		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
 		for (int i=0; i<tasks.size();i++){
 			taskEntries.add((TaskEntry)tasks.get(tasks.size()-i-1));
 		}
 
-//		return ok(index.render(entries));
 		return ok(index.render(taskEntries));
     }
 
@@ -134,15 +125,14 @@ public class Application extends Controller {
 		return redirect("/");
 	}
 
+
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result profile() {
 		final User localUser = getLocalUser(session());
 		return ok(profile.render(localUser));
 	}
 
-	
-    
-    /**
+	/**
 	public static Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
@@ -154,8 +144,7 @@ public class Application extends Controller {
 			// Everything was filled
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
 		}
-	}
-    */
+	}*/
 
 	public static Result signup() {
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
@@ -185,19 +174,15 @@ public class Application extends Controller {
 
 
 
+
 	//================================================================================
 	// Integration Settings
 	//================================================================================
 
-	public static Result settings() {
-
+	@Restrict(@Group(Application.USER_ROLE))
+	public static Result accounts() {
 		final User localUser = getLocalUser(session());
-
-		if(localUser == null) {
-			return redirect("/");
-		}
-
-		return ok(integration_settings.render());
+		return ok(accounts.render());
 	}
 
 
