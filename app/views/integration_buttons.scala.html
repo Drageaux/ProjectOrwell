@@ -7,17 +7,17 @@
         
         <!-- Check to see if there's any user at all, otherwise it will be null -->
         @if(user == null) {
-            <a type="button" href="/authenticate/@provider" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" id="integrationButton">
+            <a type="button" href="/authenticate/@provider" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" id="customButton">
                 <span>Connect</span>
             </a>
         } else {
             <!-- If there is a local user, check if the user's linked with this provider -->
             @if(user.getAccountByProvider(provider) == null) { 
-                <a type="button" href="/authenticate/@provider" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" id="integrationButton">
+                <a type="button" href="/authenticate/@provider" class="uk-width-1-1 uk-button-large uk-button-primary uk-margin-small" id="customButton">
                     <span>Connect</span>
                 </a>
             } else{
-                <a type="button" href="#" class="uk-width-1-1 uk-button-large uk-button-danger uk-margin-small" id="integrationButton">
+                <a type="button" href="#" class="uk-width-1-1 uk-button-large uk-button-danger uk-margin-small" id="customButton">
                     <span>Disconnect</span>
                 </a>
             }
