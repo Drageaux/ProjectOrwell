@@ -181,7 +181,7 @@ public class Application extends Controller {
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result accounts() {
-		final User localUser = getLocalUser(session());
+
 		return ok(accounts.render());
 	}
 
