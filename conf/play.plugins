@@ -1,6 +1,8 @@
 10004:service.WunderlistServicePlugin
 10005:service.MyUserServicePlugin
-10006:providers.wunderlist.WunderlistAuthProvider
+10006:service.GithubServicePlugin
+10007:providers.wunderlist.WunderlistAuthProvider
+10008:providers.github.MyGithubAuthProvider
 #10010:com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider
 10020:com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider
 #10030:com.feth.play.module.pa.providers.oauth2.foursquare.FoursquareAuthProvider

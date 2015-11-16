@@ -29,7 +29,7 @@ public class TaskEntry extends Entry {
     /**
      *
      * @param linkedAccountId - The id of the linkedAccount associated with the TaskEntry being created
-     * @param startTimeStr -    The start time of the TaskEntry: will be the creation time of the wunderlist task
+     * @param time -    The start time of the TaskEntry: will be the creation time of the wunderlist task
      * @param endTimeStr -      The end time of the TaskEntry being created: will be the same as start time
      *                          if the type is creation.
      * @param type  -           The type of the TaskEntry being created: 'created' or 'completed'

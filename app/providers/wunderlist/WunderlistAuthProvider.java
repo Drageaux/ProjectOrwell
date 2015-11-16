@@ -1,19 +1,13 @@
 package providers.wunderlist;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feth.play.module.pa.exceptions.AccessTokenException;
 import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.oauth2.OAuth2AuthInfo;
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthProvider;
 import com.feth.play.module.pa.user.AuthUserIdentity;
-import com.feth.play.module.pa.user.EmailIdentity;
-import com.feth.play.module.pa.user.NameIdentity;
 import com.google.inject.Inject;
 import play.Application;
 import play.Logger;
-import play.libs.Json;
-import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import service.WunderlistServicePlugin;
 
@@ -53,7 +47,6 @@ public class WunderlistAuthProvider extends
 
     @Override
     protected AuthUserIdentity transform(WunderlistAuthInfo info, String state) throws AuthException {
-
 
         // Get the user info
         final JsonNode result = service.getUserInfo(info);

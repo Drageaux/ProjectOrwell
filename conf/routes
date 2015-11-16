@@ -19,9 +19,11 @@ GET         /login                                 controllers.Application.login
 GET         /logout                                com.feth.play.module.pa.controllers.Authenticate.logout
 GET         /authenticate/:provider                com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
-POST        /webhook/wunderlist                    controllers.Application.webhook
+POST        /webhook/wunderlist                    controllers.Webhook.wunderlist
 POST        /webhook/facebook                      controllers.Webhook.facebook
 GET         /webhook/facebook                      controllers.Webhook.facebook
+POST        /webhook/github                        controllers.Webhook.github
+GET         /webhook/github                        controllers.Webhook.github
 
 #GET         /webhook/wunderlist/:hook              controllers.Application.webhook(hook: String)
 
