@@ -87,16 +87,19 @@ public class GithubServicePlugin extends Plugin {
     }
 
     public void createWebhook(OAuth2AuthInfo authInfo, String hooks_url) {
-        System.out.println("Creating webhooks with url: " + hooks_url) ;
-        long hookId ;
 
-        // Delete all webhooks that connect to our website
+        boolean hasWebhook = false ;
+        // Check if there's already a webhook that is connected to our website
         for(JsonNode hook : getWebhooks(authInfo, hooks_url)) {
-            hookId = hook.get("id").asLong();
             // Check if the current webhook is connected to our website
-            if(hook.get("config").get("url").asText().startsWith(app.configuration().getString("root"))){
-                deleteWebhook(authInfo, hooks_url, hookId) ;
+            if(hook.get("config") != null && hook.get("config").get("url").asText().startsWith(app.configuration().getString("root"))){
+                hasWebhook = true ;
             }
+        }
+
+        //If a webhook already exists with the current root url as a callback, don't bother making another.
+        if(hasWebhook){
+            return ;
         }
 
         //Build the config param for webhook post payload

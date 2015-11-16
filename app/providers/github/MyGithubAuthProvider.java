@@ -53,13 +53,10 @@ public class MyGithubAuthProvider extends GithubAuthProvider {
         String hooks_url ;
 
         // Create the webhooks
-        //for(JsonNode n : service.getRepos(info)) {
-        //    hooks_url = n.get("hooks_url").asText() ;
-        //    service.createWebhook(info, hooks_url);
-        //}
-        JsonNode j = service.getRepo(info, "aac6012", "WebhookTesting") ;
-        hooks_url = j.get("hooks_url").asText() ;
-        service.createWebhook(info, hooks_url) ;
+        for(JsonNode n : service.getRepos(info)) {
+            hooks_url = n.get("hooks_url").asText();
+            service.createWebhook(info, hooks_url);
+        }
 
         return new GithubAuthUser(result, info, state);
 
