@@ -8,28 +8,35 @@
 }
 
 @main(Messages("playauthenticate.merge.accounts.title")) {
+	<div class="uk-position-cover uk-margin-top" id="contentArea">
+		@display
+	</div>
+}
 
-	<h1>@Messages("playauthenticate.merge.accounts.title")</h1>
-	<p>
-	@form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
+@display = {
+    <div class="uk-container-center uk-width-3-5 uk-margin-large-top uk-margin-medium-bottom">
+        <h1>@Messages("playauthenticate.merge.accounts.title")</h1>
+        <p>
+            @form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
 
             @if(acceptForm.hasGlobalErrors) {
-		        <p class="alert alert-danger">
-		          @acceptForm.globalError.message
-		     	</p>
+                <p class="alert alert-danger">
+                    @acceptForm.globalError.message
+                </p>
             }
 
-	   @inputRadioGroup(
-            acceptForm("accept"),
-            options = Seq(
-            	"true"-> Messages("playauthenticate.merge.accounts.true"),
-            	"false"->Messages("playauthenticate.merge.accounts.false")
+            @inputRadioGroup(
+                acceptForm("accept"),
+                options = Seq(
+                "true"-> Messages("playauthenticate.merge.accounts.true"),
+                "false"->Messages("playauthenticate.merge.accounts.false")
             ),
             '_label -> label,
             '_showConstraints -> false
-        )
+            )
 
-    <button type="submit" class="btn btn-default">@Messages("playauthenticate.merge.accounts.ok")</button>
-	}
-	</p>
+        <button type="submit" class="uk-button uk-button-small uk-button-primary uk-margin-small" id="customButton"><span>Submit</span></button>
+        }
+        </p>
+    </div>
 }

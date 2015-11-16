@@ -24,10 +24,28 @@ html {
 }
 
 .colored-border {
-    border-style: solid;
     border-width: medium;
+    border-style: solid;
     border-color: goldenrod;
 }
+
+/* Buttons */
+#customButton {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+}
+
+#customButton:hover {
+    text-decoration: none;
+}
+
+#customButton span {
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+}
+
 
 /* Top Navigation Bar */
 #topNav {
@@ -68,9 +86,9 @@ html {
 }
 
 #welcomeMessage h1 {
-    font-family: ginger-peachy;
-    font-size: 60px;
     margin-bottom: 20px;
+    font-size: 60px;
+    font-family: ginger-peachy;
 }
 
 #welcomeMessage h1, a {
@@ -127,21 +145,6 @@ html {
 .integration-button-div {
     float: right; 
     overflow: hidden; 
-    text-align: center;
     padding-left: 25px;
-}
-
-#integrationButton {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 5px;
-}
-
-#integrationButton:hover {
-    text-decoration: none;
-}
-
-#integrationButton span {
-    padding: 15px;
     text-align: center;
 }
