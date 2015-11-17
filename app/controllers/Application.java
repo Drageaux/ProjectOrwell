@@ -8,7 +8,9 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
 import models.entries.Entry;
+import models.entries.PushEntry;
 import models.entries.TaskEntry;
+import org.springframework.scheduling.config.TaskNamespaceHandler;
 import play.Routes;
 import play.data.Form;
 import play.db.DB;
@@ -46,8 +48,15 @@ public class Application extends Controller {
 
 		List<Entry> tasks = TaskEntry.find.all();
 		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
+		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
+		Entry entry ;
 		for (int i=0; i<tasks.size();i++){
-			taskEntries.add((TaskEntry)tasks.get(tasks.size()-i-1));
+			entry = tasks.get(tasks.size()-i-1) ;
+			if(entry instanceof TaskEntry){
+				taskEntries.add((TaskEntry)entry);
+			} else if(entry instanceof PushEntry){
+				pushEntries.add((PushEntry)entry) ;
+			}
 		}
 
 		return ok(index.render(taskEntries));
