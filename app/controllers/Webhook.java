@@ -51,6 +51,10 @@ public class Webhook extends Controller {
 
                 // create TaskAction for completion
                 TaskEntry taskEntry = (TaskEntry)Entry.find.where().eq("taskId", taskId).findUnique();
+                if(taskEntry == null){
+                    taskEntry = TaskEntry.create(userId, taskId, title, start_time, "created");
+                    taskEntry.save();
+                }
                 taskEntry.setEndTime(end_time);
                 taskEntry.setTaskType("completed");
                 //taskEntry.set

@@ -9,7 +9,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -26,7 +28,7 @@ public class Entry extends AppModel {
     public Long id;
 
     @ManyToMany
-    public LinkedAccount linkedAccount;
+    public List<LinkedAccount> linkedAccounts = new ArrayList<LinkedAccount>();
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date startTime;
@@ -45,11 +47,11 @@ public class Entry extends AppModel {
     }
 
     // Linked Account getter/setter
-    public LinkedAccount getLinkedAccount(){
-        return this.linkedAccount ;
+    public List<LinkedAccount> getLinkedAccounts(){
+        return this.linkedAccounts ;
     }
-    public void setLinkedAccount(LinkedAccount acct){
-        this.linkedAccount = acct ;
+    public void setLinkedAccounts(List<LinkedAccount> accts){
+        this.linkedAccounts = accts ;
     }
 
     // Start Time getter/setter

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.LinkedAccount;
 import models.User;
 import models.entries.Entry;
 import models.entries.PushEntry;
@@ -46,7 +47,16 @@ public class Application extends Controller {
 
         final User localUser = getLocalUser(session());
 
-		List<Entry> tasks = TaskEntry.find.all();
+		List<Entry> tasks = TaskEntry.find
+							.where()
+							.eq("linkedAccounts.user.id", localUser.id)
+							.findList();
+
+		for(Entry e : tasks) {
+			for(LinkedAccount a : e.getLinkedAccounts()) {
+				System.out.println(a.user);
+			}
+		}
 		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
 		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
 		Entry entry ;

@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -24,13 +26,16 @@ public class PushEntry extends Entry {
 
     public static PushEntry create(long linkedAccountId, Date pushTime, String repositoryName, String pusherName){
         //Find the LinkedAccount object using the id
-        LinkedAccount linked = LinkedAccount.find.byId(linkedAccountId) ;
+        LinkedAccount linked = LinkedAccount.find.where().eq("providerUserId",""+linkedAccountId).findUnique() ;
+        List<LinkedAccount> accounts = new ArrayList<LinkedAccount>();
+        accounts.add(linked);
+
 
         // Create a new PushEntry with the default constructor provided through Entry.
         PushEntry push = new PushEntry() ;
 
         // Set all of the fields using the supplied values.
-        push.setLinkedAccount(linked);
+        push.setLinkedAccounts(accounts);
         push.setStartTime(pushTime);
         push.setEndTime(pushTime);
 

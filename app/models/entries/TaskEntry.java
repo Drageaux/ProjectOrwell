@@ -6,7 +6,9 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -39,8 +41,11 @@ public class TaskEntry extends Entry {
      */
     public static TaskEntry create(long linkedAccountId, String taskId, String taskName, String time, String type){
         //Find the LinkedAccount object using the id
-        LinkedAccount linked = LinkedAccount.find.byId(linkedAccountId) ;
+        LinkedAccount linked = LinkedAccount.find.where().eq("providerUserId",""+linkedAccountId).findUnique() ;
+        List<LinkedAccount> accounts = new ArrayList<LinkedAccount>();
+        accounts.add(linked);
 
+        System.out.println("Acount id: " + linked.id);
         //Format the date string to the Date object.
         //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
@@ -55,7 +60,7 @@ public class TaskEntry extends Entry {
         task.setTaskId(taskId);
         task.setStartTime(startTime);
         task.setEndTime(startTime);
-        task.setLinkedAccount(linked);
+        task.setLinkedAccounts(accounts);
         task.setTaskType(type);
         task.setTaskName(taskName);
         return task ;
