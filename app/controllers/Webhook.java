@@ -18,19 +18,20 @@ public class Webhook extends Controller {
 
     public static Result wunderlist() {
         JsonNode body = request().body().asJson();
-        System.out.println(body.toString());
+        System.out.println("----------------------------------------------" + body.toString());
         long userId = body.get("client").get("user_id").asLong();
         String title = body.get("after").get("title").asText();
+        String taskId = body.get("after").get("id").asText();
 
         String operation = body.get("operation").textValue();
 
         if(operation.equals("create")) {
-            String time = body.get("after").get("created_at").asText() ;
+            String time = body.get("after").get("created_at").asText();
             //Format the string to remove non-parseable letters
             time = time.substring(0, time.indexOf("T")) + " " + time.substring(time.indexOf("T") + 1);
             time = time.substring(0, time.length()-1) ;
             // create TaskAction for creation
-            Entry entry = TaskEntry.create(userId, title, time, "created") ;
+            Entry entry = TaskEntry.create(userId, taskId, title, time, "created") ;
             entry.save() ;
             System.out.println("Created TaskEntry for creation") ;
         } else if(operation.equals("update")) {
@@ -47,8 +48,11 @@ public class Webhook extends Controller {
                 end_time = end_time.substring(0, end_time.length()-1) ;
 
                 // create TaskAction for completion
-                Entry entry = TaskEntry.create(userId, title , end_time, "completed") ;
-                entry.save() ;
+                TaskEntry taskEntry = (TaskEntry)Entry.find.where().eq("taskId", taskId).findUnique();
+                taskEntry.setEndTime(end_time);
+                taskEntry.setTaskType("completed");
+                //taskEntry.set
+                taskEntry.save() ;
                 System.out.println(Entry.find.all()) ;
                 System.out.println("Created TaskEntry for completion") ;
             }

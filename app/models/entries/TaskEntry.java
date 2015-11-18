@@ -17,6 +17,9 @@ import java.util.Locale;
 @DiscriminatorValue("task")
 public class TaskEntry extends Entry {
 
+    @Column(name = "task_id")
+    public String taskId;
+
     @Column(name="task_type")
     public String taskType ;
 
@@ -34,7 +37,7 @@ public class TaskEntry extends Entry {
      *                          if the type is creation.
      * @param type  -           The type of the TaskEntry being created: 'created' or 'completed'
      */
-    public static TaskEntry create(long linkedAccountId, String taskName, String time, String type){
+    public static TaskEntry create(long linkedAccountId, String taskId, String taskName, String time, String type){
         //Find the LinkedAccount object using the id
         LinkedAccount linked = LinkedAccount.find.byId(linkedAccountId) ;
 
@@ -49,7 +52,8 @@ public class TaskEntry extends Entry {
             e.printStackTrace();
         }
 
-        TaskEntry task = new TaskEntry() ;
+        TaskEntry task = new TaskEntry();
+        task.setTaskId(taskId);
         task.setStartTime(startTime);
         task.setEndTime(startTime);
         task.setLinkedAccount(linked);
@@ -70,9 +74,22 @@ public class TaskEntry extends Entry {
         return this.taskType ;
     }
 
+    public String getTaskId() { return this.taskId; }
+    public void setTaskId(String taskId) { this.taskId = taskId; }
+
     // Task name getter/setter
     public void setTaskName(String name) {
         this.taskName = name ;
+    }
+
+    public void setEndTime(String endtime){
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
+        Date endTime = null ;
+        try{
+            this.endTime =  df.parse(endtime);
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
     }
     public String getTaskName(){
         return this.taskName ;
