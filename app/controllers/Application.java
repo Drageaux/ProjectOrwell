@@ -50,6 +50,7 @@ public class Application extends Controller {
 		List<Entry> tasks = TaskEntry.find
 							.where()
 							.eq("linkedAccounts.user.id", localUser.id)
+							.orderBy("end_time desc")
 							.findList();
 
 		for(Entry e : tasks) {
@@ -61,7 +62,7 @@ public class Application extends Controller {
 		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
 		Entry entry ;
 		for (int i=0; i<tasks.size();i++){
-			entry = tasks.get(tasks.size()-i-1) ;
+			entry = tasks.get(i) ;
 			if(entry instanceof TaskEntry){
 				taskEntries.add((TaskEntry)entry);
 			} else if(entry instanceof PushEntry){
