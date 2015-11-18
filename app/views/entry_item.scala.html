@@ -2,36 +2,43 @@
 @import java.text.SimpleDateFormat
 
 
-<li class="uk-margin-small-top uk-animation-slide-right uk-animation data-item">    
-    <article class="uk-article uk-width-9-10 uk-container-center uk-grid">
-        <div class="uk-width-1-1">
-            <div class="uk-float-left uk-width-7-10">
+<li class="uk-margin-small-top uk-animation-slide-right uk-animation data-item">
+    <article class="uk-article uk-container-center">
+        <div class="uk-grid">
+            <div class="uk-width-1-2">
                 @taskEntry.getTaskType match{
                     case "created" => {<div class="uk-badge">Task Created</div>}
                     case "completed" => {<div class="uk-badge uk-badge-success">Task Completed</div>}
                 }
-                
             </div>
-            <div class="uk-float-right uk-width-3-10">
+
+            <div class="uk-width-1-2">
                 <p class="uk-article-meta uk-text-right uk-margin-medium">
                     <b>
-                        @(new SimpleDateFormat("h:mm a, MMM dd, yyyy").format(taskEntry.getStartTime()))
+                        Created At: @(new SimpleDateFormat("h:mm a, MMM dd, yyyy").format(taskEntry.getStartTime()))
                         <br>
+                            @if(!taskEntry.getEndTime().equals(taskEntry.getStartTime())){
+                                Completed At: @(new SimpleDateFormat("h:mm a, MMM dd, yyyy").format(taskEntry.getEndTime()))
+                            }
                     </b>
                 </p>
             </div>
         </div>
-            
-        <div class="uk-width-1-1">
-            <h2 class="uk-article-title uk-margin-small">@taskEntry.getTaskName()</h2>
+
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <h2 class="uk-article-title uk-margin-small">@taskEntry.getTaskName()</h2>
+            </div>
         </div>
-        
-        <div class="uk-width-1-1">
-            <b class="uk-article-meta uk-text-right uk-align-right">
+
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <b class="uk-article-meta uk-text-right uk-align-right">
                 via Wunderlist
-                <img src="http://a2.mzstatic.com/us/r30/Purple3/v4/f4/51/91/f451919c-1b82-b2b3-4fce-0968b4eaddef/icon128.png" alt="WL" width="20px">
-                @*in List @taskEntry.getListName()*@
-            </b>
+                    <img src="http://a2.mzstatic.com/us/r30/Purple3/v4/f4/51/91/f451919c-1b82-b2b3-4fce-0968b4eaddef/icon128.png" alt="WL" width="20px">
+                    @*in List @taskEntry.getListName()*@
+                </b>
+            </div>
         </div>
         
         
