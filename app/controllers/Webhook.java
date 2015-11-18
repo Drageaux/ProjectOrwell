@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.typesafe.config.ConfigFactory;
 import models.entries.Entry;
+import models.entries.PushEntry;
 import models.entries.TaskEntry;
 import play.api.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -18,7 +20,7 @@ public class Webhook extends Controller {
 
     public static Result wunderlist() {
         JsonNode body = request().body().asJson();
-        System.out.println("----------------------------------------------" + body.toString());
+        System.out.println(body.toString());
         long userId = body.get("client").get("user_id").asLong();
         String title = body.get("after").get("title").asText();
         String taskId = body.get("after").get("id").asText();
@@ -81,6 +83,21 @@ public class Webhook extends Controller {
 
     public static Result github() {
         System.out.println("Called github webhook method.") ;
+
+        JsonNode body = request().body().asJson() ;
+        // Get the user id of the user who sent the push.
+        long userId = body.get("sender").get("id").asLong();
+        // Get the name of the user who pushed.
+        String pusherName = body.get("pusher").get("name").asText() ;
+        // Get the name of the repository pushed to.
+        String repoName = body.get("repository").get("name").asText() ;
+        // Get the timestamp of the push.
+        long pushTime = body.get("repository").get("pushed_at").asLong() ;
+        Date pushDate = new Date(pushTime) ;
+
+        PushEntry p = PushEntry.create(userId, pushDate, repoName, pusherName) ;
+        p.save() ;
+
         return ok() ;
     }
 

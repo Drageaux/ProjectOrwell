@@ -8,6 +8,7 @@ create table entries (
   id                        bigint not null,
   start_time                timestamp,
   end_time                  timestamp,
+  task_id                   varchar(255),
   task_type                 varchar(255),
   list_name                 varchar(255),
   task_name                 varchar(255),

@@ -41,7 +41,6 @@ public class TaskEntry extends Entry {
         //Find the LinkedAccount object using the id
         LinkedAccount linked = LinkedAccount.find.byId(linkedAccountId) ;
 
-
         //Format the date string to the Date object.
         //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
@@ -93,14 +92,6 @@ public class TaskEntry extends Entry {
     }
     public String getTaskName(){
         return this.taskName ;
-    }
-
-    // List name getter/setter
-    public void setListName(String name){
-        this.listName = name ;
-    }
-    public String getListName(){
-        return this.listName ;
     }
 
 
