@@ -53,11 +53,14 @@ public class Application extends Controller {
 							.orderBy("end_time desc")
 							.findList();
 
+		/* Not sure why this block is here.
 		for(Entry e : tasks) {
 			for(LinkedAccount a : e.getLinkedAccounts()) {
 				System.out.println(a.user);
 			}
 		}
+		*/
+
 		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
 		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
 		Entry entry ;

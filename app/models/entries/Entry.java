@@ -46,6 +46,10 @@ public class Entry extends AppModel {
         return startTime == endTime;
     }
 
+    public long getId(){
+        return this.id ;
+    }
+
     // Linked Account getter/setter
     public List<LinkedAccount> getLinkedAccounts(){
         return this.linkedAccounts ;

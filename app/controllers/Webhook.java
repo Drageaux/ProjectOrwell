@@ -20,7 +20,6 @@ public class Webhook extends Controller {
 
     public static Result wunderlist() {
         JsonNode body = request().body().asJson();
-        System.out.println(body.toString());
         long userId = body.get("client").get("user_id").asLong();
         String title = body.get("after").get("title").asText();
         String taskId = body.get("after").get("id").asText();
@@ -91,16 +90,36 @@ public class Webhook extends Controller {
         JsonNode body = request().body().asJson() ;
         // Get the user id of the user who sent the push.
         long userId = body.get("sender").get("id").asLong();
-        // Get the name of the user who pushed.
+        // Get the name of the user who pushed and the owner of the repo.
         String pusherName = body.get("pusher").get("name").asText() ;
+        String repoOwner = body.get("repository").get("owner").asText() ;
         // Get the name of the repository pushed to.
-        String repoName = body.get("repository").get("name").asText() ;
-        // Get the timestamp of the push.
+        String repoName = body.get("repository").get("full_name").asText() ;
+        // Get the timestamp of the push. (given in epoch time)
         long pushTime = body.get("repository").get("pushed_at").asLong() ;
         Date pushDate = new Date(pushTime) ;
+        // Get the url to the head commit
+        String commitURL = body.get("head_commit").get("url").asText() ;
+        // Get the url to the repository
+        String repositoryURL = body.get("repository").get("html_url").asText() ;
+        // Get the commit message of the head commit.
+        String commitMessage = body.get("head_commit").get("message").asText() ;
 
-        PushEntry p = PushEntry.create(userId, pushDate, repoName, pusherName) ;
-        p.save() ;
+        // If the pusher is not the repository owner (i.e. the current orwell user) then do not create an Entry.
+        if(!pusherName.equals(repoOwner)){
+            PushEntry p = PushEntry.create(userId, pushDate, pusherName, repoName, commitURL, repositoryURL, commitMessage) ;
+            p.save() ;
+            // Debug stuff, pls ignore.
+            System.out.println("Created PushEntry: ") ;
+            System.out.println("User id: " + p.getId()) ;
+            System.out.println("Repository name: " + p.getRepositoryName()) ;
+            System.out.println("Repository url: " + p.getRepositoryURL()) ;
+            System.out.println("Pusher name: " + p.getPusherName()) ;
+            System.out.println("Commit time: " + p.getStartTime()) ;
+            System.out.println("Is instantaneous? " + p.isInstantaneous()) ;
+            System.out.println("Commit message: " + p.getCommitMessage()) ;
+            System.out.println("Commit URL: " + p.getCommitURL()) ;
+        }
 
         return ok() ;
     }
