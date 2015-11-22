@@ -105,21 +105,12 @@ public class Webhook extends Controller {
         // Get the commit message of the head commit.
         String commitMessage = body.get("head_commit").get("message").asText() ;
 
-        // If the pusher is not the repository owner (i.e. the current orwell user) then do not create an Entry.
-        if(!pusherName.equals(repoOwner)){
+        // If the pusher is the repository owner (i.e. the current orwell user) then create an Entry.
+        if(pusherName.equals(repoOwner)){
             PushEntry p = PushEntry.create(userId, pushDate, pusherName, repoName, commitURL, repositoryURL, commitMessage) ;
             p.save() ;
-            // Debug stuff, pls ignore.
-            System.out.println("Created PushEntry: ") ;
-            System.out.println("User id: " + p.getId()) ;
-            System.out.println("Repository name: " + p.getRepositoryName()) ;
-            System.out.println("Repository url: " + p.getRepositoryURL()) ;
-            System.out.println("Pusher name: " + p.getPusherName()) ;
-            System.out.println("Commit time: " + p.getStartTime()) ;
-            System.out.println("Is instantaneous? " + p.isInstantaneous()) ;
-            System.out.println("Commit message: " + p.getCommitMessage()) ;
-            System.out.println("Commit URL: " + p.getCommitURL()) ;
         }
+        // We are currently not saving push entries that come from users other than the current user (owner of the repo)
 
         return ok() ;
     }

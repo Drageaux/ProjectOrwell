@@ -1,0 +1,15 @@
+
+
+@main(title = "Statistics") {
+    <div class="uk-position-cover uk-margin-top">
+        @display
+    </div>
+}
+
+<!-- Display statistics -->
+@display = {
+    <div class="uk-margin-large-top uk-margin-medium-bottom" id="dataContainer">
+        <h1>Statistics:</h1>
+        @graph()
+    </div>
+}
