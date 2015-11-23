@@ -71,28 +71,36 @@ public class Application extends Controller {
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
 				.findList();
+
 		//We have to convert the tasks List to an array of TaskEntries before passing it into getCounts.
-		Map<String, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
+		Map<Long, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
 
 		List<PushEntry> pushes = PushEntry.find
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
 				.findList();
-		Map<String, Long> pushCounts = getCounts(pushes.toArray(new PushEntry[pushes.size()]));
+		Map<Long, Long> pushCounts = getCounts(pushes.toArray(new PushEntry[pushes.size()]));
+
+		System.out.println("Task Count: " + taskCounts) ;
 
 		return ok(statistics.render(taskCounts, pushCounts));
 	}
 
 	//This will create a mapping between the date and the number of entries that were created on that date.
-	private static Map<String, Long> getCounts(Entry[] entries){
-		Map<String,Long> stats = new HashMap<String,Long>();
+	private static Map<Long, Long> getCounts(Entry[] entries){
+		Map<Long,Long> stats = new HashMap<Long,Long>();
 		for(Entry e: entries){
 			//The key being used to store values is the string representation of the start date.
 			Date date = e.getStartTime() ;
 			Calendar cal = Calendar.getInstance() ;
 			cal.setTime(date) ;
+			//Because we only care about the date, set the hour/minute/second/millisecond all to zero.
+			cal.set(Calendar.HOUR, 0) ;
+			cal.set(Calendar.MINUTE, 0) ;
+			cal.set(Calendar.SECOND, 0) ;
+			cal.set(Calendar.MILLISECOND, 0) ;
 
-			String key = cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.DAY_OF_MONTH) ;
+			Long key = cal.getTimeInMillis() ;
 
 			// If a value at the current Entry's date exists, increment it. Otherwise add it to the map.
 			if(stats.get(key) != null){

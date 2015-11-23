@@ -1,4 +1,4 @@
-@()
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long])
 @import java.text.SimpleDateFormat
 
 
@@ -8,7 +8,7 @@
         <div class="uk-width-medium-1-3">
             <div class="uk-panel uk-panel-box" style="background-color: white">
                 <h3 class="uk-panel-title">Statistics:</h3>
-                This should be the plain text in the panel body here.
+                Panel body text here.
             </div>
         </div>
         <div class="uk-width-medium-2-3 uk-grid-margin" id="graphContainer" style="height:600px"></div>
@@ -16,6 +16,16 @@
 
     <!-- This script creates the bar chart -->
     <script type="text/javascript">
+        var taskData = [] ;
+        @for( (date,count) <- taskMap) {
+            taskData.push([@date, @count]) ;
+        }
+
+        var pushData = [] ;
+        @for( (date,count) <- pushMap) {
+            pushData.push([@date, @count]) ;
+        }
+
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graphContainer',
@@ -29,26 +39,17 @@
             },
             yAxis: {
                 title: {
-                    text: 'number of entries'
+                    text: 'Number of entries'
                 }
             },
             series: [
                 {
                     name: 'Github entries',
-                    data: [
-                        [Date.UTC(2015,10,22), 1],
-                        [Date.UTC(2015,9,31), 3],
-                        [Date.UTC(2015,10,10), 2],
-                        [Date.UTC(2015,10,15), 1]
-                    ]
+                    data: pushData
                 },
                 {
                     name: 'Wunderlist entries',
-                    data: [
-                        [Date.UTC(2015,10,22), 2],
-                        [Date.UTC(2015,10,30), 3],
-                        [Date.UTC(2015,10,5), 1]
-                    ]
+                    data: taskData
                 }
             ],
             plotOptions: {
