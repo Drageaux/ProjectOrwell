@@ -1,6 +1,10 @@
-
+@(taskMap: Map[String, Long], pushMap: Map[String, Long])
 
 @main(title = "Statistics") {
+    <!-- Highcharts imports -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
     <div class="uk-position-cover uk-margin-top">
         @display
     </div>
@@ -10,8 +14,6 @@
 @display = {
     <div class="uk-margin-large-top uk-margin-medium-bottom" id="dataContainer">
         <h1>Statistics:</h1>
-        @graph("Github")
-        @graph("Wunderlist")
-        @graph("Facebook")
+        @graph()
     </div>
 }

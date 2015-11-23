@@ -85,14 +85,13 @@ public class Webhook extends Controller {
     }
 
     public static Result github() {
-        System.out.println("Called github webhook method.") ;
 
         JsonNode body = request().body().asJson() ;
         // Get the user id of the user who sent the push.
         long userId = body.get("sender").get("id").asLong();
         // Get the name of the user who pushed and the owner of the repo.
         String pusherName = body.get("pusher").get("name").asText() ;
-        String repoOwner = body.get("repository").get("owner").asText() ;
+        String repoOwner = body.get("repository").get("owner").get("name").asText() ;
         // Get the name of the repository pushed to.
         String repoName = body.get("repository").get("full_name").asText() ;
         // Get the timestamp of the push. (given in epoch time)
@@ -109,6 +108,7 @@ public class Webhook extends Controller {
         if(pusherName.equals(repoOwner)){
             PushEntry p = PushEntry.create(userId, pushDate, pusherName, repoName, commitURL, repositoryURL, commitMessage) ;
             p.save() ;
+            System.out.println("Successfully created PushEntry") ;
         }
         // We are currently not saving push entries that come from users other than the current user (owner of the repo)
 

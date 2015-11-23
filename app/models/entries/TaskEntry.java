@@ -66,6 +66,10 @@ public class TaskEntry extends Entry {
         return task ;
     }
 
+    public static Finder<Long, TaskEntry> find = new Finder<Long, TaskEntry>(
+            Long.class, TaskEntry.class
+    );
+
 
     // Task type getter/setter
     public void setTaskType(String taskType){

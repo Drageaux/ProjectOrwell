@@ -1,43 +1,66 @@
-@(provider: String)
+@()
+@import java.text.SimpleDateFormat
+
 
 <div style="margin-bottom: 25px; margin-left:5%; margin-right:5%">
     <!-- Defines the container for the bar chart -->
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-medium-1-3">
             <div class="uk-panel uk-panel-box" style="background-color: white">
-                <h3 class="uk-panel-title">@provider Statistics:</h3>
+                <h3 class="uk-panel-title">Statistics:</h3>
                 This should be the plain text in the panel body here.
             </div>
         </div>
-        <div class="uk-width-medium-2-3 uk-grid-margin" id="graphContainer@provider" style="height:600px"></div>
+        <div class="uk-width-medium-2-3 uk-grid-margin" id="graphContainer" style="height:600px"></div>
     </div>
 
     <!-- This script creates the bar chart -->
     <script type="text/javascript">
-        var container = 'graphContainer' + '@provider' ;
         var chart = new Highcharts.Chart({
             chart: {
-                renderTo: container,
+                renderTo: 'graphContainer',
                 type: 'column'
             },
             title: {
-                text: '@provider'
+                text: 'Number of entries by date'
             },
             xAxis: {
-                categories: ['Apples', 'Bananas', 'Oranges']
+                type: 'datetime'
             },
             yAxis: {
                 title: {
-                    text: 'Fruit eaten'
+                    text: 'number of entries'
                 }
             },
-            series: [{
-                name: 'Jane',
-                data: [1, 0, 4]
-            }, {
-                name: 'John',
-                data: [5, 7, 3]
-            }]
+            series: [
+                {
+                    name: 'Github entries',
+                    data: [
+                        [Date.UTC(2015,10,22), 1],
+                        [Date.UTC(2015,9,31), 3],
+                        [Date.UTC(2015,10,10), 2],
+                        [Date.UTC(2015,10,15), 1]
+                    ]
+                },
+                {
+                    name: 'Wunderlist entries',
+                    data: [
+                        [Date.UTC(2015,10,22), 2],
+                        [Date.UTC(2015,10,30), 3],
+                        [Date.UTC(2015,10,5), 1]
+                    ]
+                }
+            ],
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    pointPadding: 0,
+                    borderWidth: 1,
+                    groupPadding: 0,
+                    shadow: false,
+                    borderColor: '#303030'
+                }
+            }
         });
     </script>
 

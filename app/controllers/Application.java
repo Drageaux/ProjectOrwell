@@ -1,17 +1,14 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 import models.LinkedAccount;
 import models.User;
 import models.entries.Entry;
 import models.entries.PushEntry;
 import models.entries.TaskEntry;
-import org.springframework.scheduling.config.TaskNamespaceHandler;
 import play.Routes;
 import play.data.Form;
 import play.db.DB;
@@ -22,7 +19,6 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 
-import scala.util.parsing.json.JSONObject$;
 import views.html.*;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -47,41 +43,67 @@ public class Application extends Controller {
 
         final User localUser = getLocalUser(session());
 
-		List<Entry> tasks = TaskEntry.find
-							.where()
-							.eq("linkedAccounts.user.id", localUser.id)
-							.orderBy("end_time desc")
-							.findList();
+		List<TaskEntry> tasks = TaskEntry.find
+									.where()
+									.eq("linkedAccounts.user.id", localUser.id)
+									.orderBy("end_time desc")
+									.findList();
 
-		/* Not sure why this block is here.
-		for(Entry e : tasks) {
-			for(LinkedAccount a : e.getLinkedAccounts()) {
-				System.out.println(a.user);
-			}
-		}
-		*/
+		List<PushEntry> entries = PushEntry.find
+									.where()
+									.eq("linkedAccounts.user.id", localUser.id)
+									.orderBy("end_time desc")
+									.findList();
 
-		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
-		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
-		Entry entry ;
-		for (int i=0; i<tasks.size();i++){
-			entry = tasks.get(i) ;
-			if(entry instanceof TaskEntry){
-				taskEntries.add((TaskEntry)entry);
-			} else if(entry instanceof PushEntry){
-				pushEntries.add((PushEntry)entry) ;
-			}
-		}
-
-		return ok(index.render(taskEntries));
+		return ok(index.render(tasks));
     }
 
 	//================================================================================
 	// Statistics page
 	//================================================================================
 	@Restrict(@Group(Application.USER_ROLE))
-	public static Result statistics(){
-		return ok(statistics.render()) ;
+	public static Result statistics() {
+		String[] providers = {"github", "wunderlist", "facebook"};
+
+		final User localUser = getLocalUser(session());
+
+		List<TaskEntry> tasks = TaskEntry.find
+				.where()
+				.eq("linkedAccounts.user.id", localUser.id)
+				.findList();
+		//We have to convert the tasks List to an array of TaskEntries before passing it into getCounts.
+		Map<String, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
+
+		List<PushEntry> pushes = PushEntry.find
+				.where()
+				.eq("linkedAccounts.user.id", localUser.id)
+				.findList();
+		Map<String, Long> pushCounts = getCounts(pushes.toArray(new PushEntry[pushes.size()]));
+
+		return ok(statistics.render(taskCounts, pushCounts));
+	}
+
+	//This will create a mapping between the date and the number of entries that were created on that date.
+	private static Map<String, Long> getCounts(Entry[] entries){
+		Map<String,Long> stats = new HashMap<String,Long>();
+		for(Entry e: entries){
+			//The key being used to store values is the string representation of the start date.
+			Date date = e.getStartTime() ;
+			Calendar cal = Calendar.getInstance() ;
+			cal.setTime(date) ;
+
+			String key = cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.DAY_OF_MONTH) ;
+
+			// If a value at the current Entry's date exists, increment it. Otherwise add it to the map.
+			if(stats.get(key) != null){
+				// Get the old value, add one, replace the old value.
+				Long newVal = stats.get(key) + 1 ;
+				stats.replace(key, newVal) ;
+			} else{
+				stats.put(key, new Long(1)) ;
+			}
+		}
+		return stats ;
 	}
 
 
