@@ -1,4 +1,4 @@
-@(taskMap: Map[Long, Long], pushMap: Map[Long, Long])
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], averages: Map[String, Long])
 
 @main(title = "Statistics") {
     <!-- Highcharts imports -->
@@ -14,6 +14,6 @@
 @display = {
     <div class="uk-margin-large-top uk-margin-medium-bottom" id="dataContainer">
         <h1>Statistics:</h1>
-        @graph(taskMap, pushMap)
+        @graph(taskMap, pushMap, averages)
     </div>
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit ;
 
 
 import models.LinkedAccount;
@@ -63,27 +64,35 @@ public class Application extends Controller {
 	//================================================================================
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result statistics() {
-		String[] providers = {"github", "wunderlist", "facebook"};
-
 		final User localUser = getLocalUser(session());
+		//This will hold the averages for 1 week for each provider.
+		Map<String, Long> averages = new HashMap<String, Long>() ;
 
 		List<TaskEntry> tasks = TaskEntry.find
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
+				.orderBy("end_time desc")
 				.findList();
 
+		//Get the averages, if needed.
+		if(!tasks.isEmpty()){
+			//I know, this way of doing an array conversion as a parameter is horrendous.  Sorry.
+			averages.put("Wunderlist", getAverageWeek(tasks.toArray(new TaskEntry[tasks.size()]))) ;
+		}
 		//We have to convert the tasks List to an array of TaskEntries before passing it into getCounts.
 		Map<Long, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
 
 		List<PushEntry> pushes = PushEntry.find
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
+				.orderBy("end_time desc")
 				.findList();
+		if(!pushes.isEmpty()){
+			averages.put("Github", getAverageWeek(pushes.toArray(new PushEntry[pushes.size()]))) ;
+		}
 		Map<Long, Long> pushCounts = getCounts(pushes.toArray(new PushEntry[pushes.size()]));
 
-		System.out.println("Task Count: " + taskCounts) ;
-
-		return ok(statistics.render(taskCounts, pushCounts));
+		return ok(statistics.render(taskCounts, pushCounts, averages));
 	}
 
 	//This will create a mapping between the date and the number of entries that were created on that date.
@@ -112,6 +121,21 @@ public class Application extends Controller {
 			}
 		}
 		return stats ;
+	}
+
+	private static long getAverageWeek(Entry[] entries){
+		Date d1, d2 ;
+		long avg ;
+		//Oldest
+		d1 = entries[entries.length-1].getEndTime() ;
+		//Most recent
+		d2 = entries[0].getEndTime() ;
+		//Get the difference of the two times.
+		long diff = d2.getTime() - d1.getTime() ;
+		int dayDiff = new Long(TimeUnit.MILLISECONDS.toDays(diff)).intValue() ;
+		//Calculate the average # of entries per week
+		avg = (entries.length * 7) / (new Long(dayDiff + 1).longValue()) ;
+		return avg ;
 	}
 
 

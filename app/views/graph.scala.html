@@ -1,4 +1,4 @@
-@(taskMap: Map[Long, Long], pushMap: Map[Long, Long])
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], averages: Map[String, Long])
 @import java.text.SimpleDateFormat
 
 
@@ -7,8 +7,12 @@
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-medium-1-3">
             <div class="uk-panel uk-panel-box" style="background-color: white">
-                <h3 class="uk-panel-title">Statistics:</h3>
-                Panel body text here.
+                <h3 class="uk-panel-title">Your average week:</h3>
+                <ul>
+                    @for( (provider,avg) <- averages) {
+                        <li>@provider entries: @avg</li>
+                    }
+                </ul>
             </div>
         </div>
         <div class="uk-width-medium-2-3 uk-grid-margin" id="graphContainer" style="height:600px"></div>
