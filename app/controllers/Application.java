@@ -126,10 +126,10 @@ public class Application extends Controller {
 	private static long getAverageWeek(Entry[] entries){
 		Date d1, d2 ;
 		long avg ;
-		//Oldest
+		//Oldest entry
 		d1 = entries[entries.length-1].getEndTime() ;
-		//Most recent
-		d2 = entries[0].getEndTime() ;
+		//Current date
+		d2 = new Date() ;
 		//Get the difference of the two times.
 		long diff = d2.getTime() - d1.getTime() ;
 		int dayDiff = new Long(TimeUnit.MILLISECONDS.toDays(diff)).intValue() ;

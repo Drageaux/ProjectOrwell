@@ -58,7 +58,6 @@ public class Webhook extends Controller {
                 taskEntry.setTaskType("completed");
                 //taskEntry.set
                 taskEntry.save() ;
-                System.out.println(Entry.find.all()) ;
                 System.out.println("Created TaskEntry for completion") ;
             }
         }
@@ -96,7 +95,8 @@ public class Webhook extends Controller {
         String repoName = body.get("repository").get("full_name").asText() ;
         // Get the timestamp of the push. (given in epoch time)
         long pushTime = body.get("repository").get("pushed_at").asLong() ;
-        Date pushDate = new Date(pushTime) ;
+        // Note that the number given by github is # seconds since 1970, but the Date takes # milliseconds since 1970.
+        Date pushDate = new Date(pushTime * 1000) ;
         // Get the url to the head commit
         String commitURL = body.get("head_commit").get("url").asText() ;
         // Get the url to the repository

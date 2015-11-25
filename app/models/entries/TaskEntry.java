@@ -1,6 +1,7 @@
 package models.entries;
 
 import models.LinkedAccount;
+import org.joda.time.DateTimeZone;
 
 import javax.persistence.*;
 import java.text.DateFormat;
@@ -45,13 +46,13 @@ public class TaskEntry extends Entry {
         List<LinkedAccount> accounts = new ArrayList<LinkedAccount>();
         accounts.add(linked);
 
-        System.out.println("Acount id: " + linked.id);
         //Format the date string to the Date object.
         //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
-        Date startTime = null, endTime = null ;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS", Locale.ENGLISH);
+        Date startTime = null ;
         try{
-            startTime =  df.parse(time);
+            // This will parse and convert the provided UTC time to the current time zone time.
+            startTime = new Date(DateTimeZone.getDefault().convertUTCToLocal(df.parse(time).getTime())) ;
         } catch(ParseException e){
             e.printStackTrace();
         }
