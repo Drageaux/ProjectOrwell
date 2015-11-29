@@ -8,6 +8,11 @@ create table entries (
   id                        bigint not null,
   start_time                timestamp,
   end_time                  timestamp,
+  repository_name           varchar(255),
+  pusher_name               varchar(255),
+  repository_url            varchar(255),
+  commit_url                varchar(255),
+  commit_message            varchar(255),
   task_id                   varchar(255),
   task_type                 varchar(255),
   list_name                 varchar(255),
@@ -61,6 +66,12 @@ create table user_permission (
 ;
 
 
+create table entries_linked_account (
+  entries_id                     bigint not null,
+  linked_account_id              bigint not null,
+  constraint pk_entries_linked_account primary key (entries_id, linked_account_id))
+;
+
 create table users_security_role (
   users_id                       bigint not null,
   security_role_id               bigint not null,
@@ -91,6 +102,10 @@ create index ix_token_action_targetUser_2 on token_action (target_user_id);
 
 
 
+alter table entries_linked_account add constraint fk_entries_linked_account_ent_01 foreign key (entries_id) references entries (id) on delete restrict on update restrict;
+
+alter table entries_linked_account add constraint fk_entries_linked_account_lin_02 foreign key (linked_account_id) references linked_account (id) on delete restrict on update restrict;
+
 alter table users_security_role add constraint fk_users_security_role_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
 
 alter table users_security_role add constraint fk_users_security_role_securi_02 foreign key (security_role_id) references security_role (id) on delete restrict on update restrict;
@@ -104,6 +119,8 @@ alter table users_user_permission add constraint fk_users_user_permission_user_0
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists entries;
+
+drop table if exists entries_linked_account;
 
 drop table if exists linked_account;
 
