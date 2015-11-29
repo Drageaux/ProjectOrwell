@@ -1,0 +1,58 @@
+@(pushEntry: entries.PushEntry)
+@import java.text.SimpleDateFormat
+
+
+<li class="uk-margin-small-top uk-animation-slide-right uk-animation data-item">
+    <article class="uk-article uk-container-center">
+        <div class="uk-grid">
+            <div class="uk-width-1-2">
+                 <div class="uk-badge">@pushEntry.getCommitURL()</div>
+            </div>
+
+            <div class="uk-width-1-2">
+                <p class="uk-article-meta uk-text-right uk-margin-medium">
+                    <b>
+                        Pushed At: @(new SimpleDateFormat("h:mm a, MMM dd, yyyy").format(pushEntry.getStartTime()))
+                    </b>
+                </p>
+            </div>
+        </div>
+
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <h2 class="uk-article-title uk-margin-small">Author: @pushEntry.getPusherName</h2>
+            </div>
+        </div>
+
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <b class="uk-article-meta uk-text-right uk-align-right">
+                via GitHub
+                    <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" alt="WL" width="20px">
+                </b>
+            </div>
+        </div>
+        
+        
+            
+
+        <!-- Images if available-->
+        @* Commented out
+        <div class="uk-width-6-10">
+            <div data-uk-slideset="{small: 1, medium: 2, large: 3}">
+                <div class="uk-slidenav-position">
+                    <ul class="uk-grid uk-slideset">
+                        <li><a href="http://placekitten.com/124/141" data-uk-lightbox><a/></a><img src="http://placekitten.com/121/141" alt=""></li>
+                        <li><img src="http://placekitten.com/125/141" alt=""></li>
+                        <li><img src="http://placekitten.com/120/141" alt=""></li>
+                        <li><img src="http://placekitten.com/126/141" alt=""></li>
+                        <li><img src="http://placekitten.com/127/141" alt=""></li>
+                    </ul>
+                    <a href="" class="uk-slidenav uk-slidenav-previous" data-uk-slideset-item="previous"></a>
+                    <a href="" class="uk-slidenav uk-slidenav-next" data-uk-slideset-item="next"></a>
+                </div>
+            </div>
+        </div>
+        *@
+    </article>
+</li>

@@ -47,7 +47,7 @@ public class Application extends Controller {
 
         final User localUser = getLocalUser(session());
 
-		List<Entry> tasks = TaskEntry.find
+		List<Entry> entries = Entry.find
 							.where()
 							.eq("linkedAccounts.user.id", localUser.id)
 							.orderBy("end_time desc")
@@ -63,17 +63,16 @@ public class Application extends Controller {
 
 		List<TaskEntry> taskEntries = new ArrayList<TaskEntry>();
 		List<PushEntry> pushEntries = new ArrayList<PushEntry>() ;
-		Entry entry ;
-		for (int i=0; i<tasks.size();i++){
-			entry = tasks.get(i) ;
-			if(entry instanceof TaskEntry){
-				taskEntries.add((TaskEntry)entry);
-			} else if(entry instanceof PushEntry){
-				pushEntries.add((PushEntry)entry) ;
-			}
-		}
+//		for (int i=0; i<tasks.size();i++){
+//			entry = tasks.get(i) ;
+//			if(entry instanceof TaskEntry){
+//				taskEntries.add((TaskEntry)entry);
+//			} else if(entry instanceof PushEntry){
+//				pushEntries.add((PushEntry)entry) ;
+//			}
+//		}
 
-		return ok(index.render(taskEntries));
+		return ok(index.render(entries));
     }
 
 	//================================================================================

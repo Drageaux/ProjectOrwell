@@ -1,4 +1,4 @@
-@(taskEntries: List[entries.TaskEntry])
+@(eMany: List[entries.Entry])
 
 @main(title = "Home") {
     <div class="uk-position-cover uk-margin-top" id="contentArea">
@@ -11,8 +11,17 @@
     <div class="uk-margin-large-top uk-margin-medium-bottom" id="dataContainer">
         <!-- List of posts is 3/4 the width of the screen -->
         <ul class="uk-list uk-container-center uk-width-1-2">
-            @for(taskEntry <- taskEntries){
-                @entry_item(taskEntry)
+
+            @for(e <- eMany){
+                @e.getLinkedAccounts().get(0).providerKey match {
+                    case "wunderlist" => {
+                        @taskentry_item(e.asInstanceOf[entries.TaskEntry])
+                    }
+                    case "github" => {
+                        <div>YES</div>
+                    }
+                }
+
             }
         </ul>
     </div>
