@@ -18,7 +18,7 @@
                         @taskentry_item(e.asInstanceOf[entries.TaskEntry])
                     }
                     case "github" => {
-                        <div>YES</div>
+                        @pushentry_item(e.asInstanceOf[entries.PushEntry])
                     }
                 }
 
