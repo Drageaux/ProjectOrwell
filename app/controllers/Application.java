@@ -44,20 +44,13 @@ public class Application extends Controller {
 
         final User localUser = getLocalUser(session());
 
-		List<TaskEntry> tasks = TaskEntry.find
-									.where()
-									.eq("linkedAccounts.user.id", localUser.id)
-									.orderBy("end_time desc")
-									.findList();
+		List<Entry> entries = Entry.find
+								.where()
+								.eq("linkedAccounts.user.id", localUser.id)
+								.orderBy("end_time desc")
+								.findList() ;
 
-
-		List<PushEntry> entries = PushEntry.find
-									.where()
-									.eq("linkedAccounts.user.id", localUser.id)
-									.orderBy("end_time desc")
-									.findList();
-
-		return ok(index.render(tasks));
+		return ok(index.render(entries));
     }
 
 	//================================================================================
