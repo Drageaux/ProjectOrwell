@@ -46,16 +46,7 @@ public class TaskEntry extends Entry {
         List<LinkedAccount> accounts = new ArrayList<LinkedAccount>();
         accounts.add(linked);
 
-        //Format the date string to the Date object.
-        //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS", Locale.ENGLISH);
-        Date startTime = null ;
-        try{
-            // This will parse and convert the provided UTC time to the current time zone time.
-            startTime = new Date(DateTimeZone.getDefault().convertUTCToLocal(df.parse(time).getTime())) ;
-        } catch(ParseException e){
-            e.printStackTrace();
-        }
+        Date startTime = timeZoneAdjust(time) ;
 
         TaskEntry task = new TaskEntry();
         task.setTaskId(taskId);
@@ -71,6 +62,19 @@ public class TaskEntry extends Entry {
             Long.class, TaskEntry.class
     );
 
+    //Format the date string to the Date object and adjust for current time zone.
+    //This is the format for Wunderlist: 2013-08-30T08:36:13.273Z
+    public static Date timeZoneAdjust(String raw_time){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS", Locale.ENGLISH);
+        Date date = null ;
+        try{
+            // This will parse and convert the provided UTC time to the current time zone time.
+            date = new Date(DateTimeZone.getDefault().convertUTCToLocal(df.parse(raw_time).getTime())) ;
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+        return date ;
+    }
 
     // Task type getter/setter
     public void setTaskType(String taskType){
@@ -91,18 +95,11 @@ public class TaskEntry extends Entry {
         this.taskName = name ;
     }
 
-    public void setEndTime(String endtime){
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd kk:mm:ss.SSS", Locale.ENGLISH);
-        Date endTime = null ;
-        try{
-            this.endTime =  df.parse(endtime);
-        } catch(ParseException e){
-            e.printStackTrace();
-        }
+    public void setEndTime(String end_time){
+        this.endTime = timeZoneAdjust(end_time) ;
     }
     public String getTaskName(){
         return this.taskName ;
     }
-
-
+    
 }
