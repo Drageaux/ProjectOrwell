@@ -56,7 +56,6 @@ public class Webhook extends Controller {
                 }
                 taskEntry.setEndTime(end_time);
                 taskEntry.setTaskType("completed");
-                //taskEntry.set
                 taskEntry.save() ;
                 System.out.println("Created TaskEntry for completion") ;
             }

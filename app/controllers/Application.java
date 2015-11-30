@@ -50,6 +50,7 @@ public class Application extends Controller {
 									.orderBy("end_time desc")
 									.findList();
 
+
 		List<PushEntry> entries = PushEntry.find
 									.where()
 									.eq("linkedAccounts.user.id", localUser.id)
@@ -79,6 +80,7 @@ public class Application extends Controller {
 			//I know, this way of doing an array conversion as a parameter is horrendous.  Sorry.
 			averages.put("Wunderlist", getAverageWeek(tasks.toArray(new TaskEntry[tasks.size()]))) ;
 		}
+
 		//We have to convert the tasks List to an array of TaskEntries before passing it into getCounts.
 		Map<Long, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
 
@@ -137,8 +139,6 @@ public class Application extends Controller {
 		avg = (entries.length * 7) / (new Long(dayDiff + 1).longValue()) ;
 		return avg ;
 	}
-
-
 
 	//================================================================================
 	// Authentication
