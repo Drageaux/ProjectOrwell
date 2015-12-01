@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.LinkedAccount;
@@ -154,11 +155,31 @@ public class Application extends Controller {
 
 
 	//================================================================================
-	// Integration Settings
+	// Accounts Page
 	//================================================================================
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result accounts() {
+
+		return ok(accounts.render());
+	}
+
+	public static Result deactivateLinkedAccount(String provider) {
+
+		final User localUser = getLocalUser(session());
+
+		// delete all entries belonging to a provider
+		Map<String, Object> propertyMap = new Map<String, Object>();
+		propertyMap.put("linkedAccounts.user.id", localUser.id);
+//		propertyMap.put("linkedAccounts.user.id", localUser.id);
+		//TaskEntry.find.where().eq("linkedAccounts.user.id", ...).findUnique();
+		List<Entry> entries = Entry.find
+				.where()
+				.allEq(propertyMap);
+
+
+		// delete the linked account to a provider
+
 
 		return ok(accounts.render());
 	}
