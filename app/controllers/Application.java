@@ -169,13 +169,21 @@ public class Application extends Controller {
 		final User localUser = getLocalUser(session());
 
 		// delete all entries belonging to a provider
-		Map<String, Object> propertyMap = new Map<String, Object>();
-		propertyMap.put("linkedAccounts.user.id", localUser.id);
-//		propertyMap.put("linkedAccounts.user.id", localUser.id);
+
 		//TaskEntry.find.where().eq("linkedAccounts.user.id", ...).findUnique();
-		List<Entry> entries = Entry.find
-				.where()
-				.allEq(propertyMap);
+
+		List<Entry> entries = null;
+		if (provider.equals("github")) {
+			entries = PushEntry.find
+					.where()
+					.eq()
+					.findList("linkedAccounts.user.id", localUser.id);
+		} else if (provider.equals("wunderlist")) {
+			entries = TaskEntry.find
+					.where()
+					.eq()
+					.findList("linkedAccounts.user.id", localUser.id);
+		}
 
 
 		// delete the linked account to a provider
