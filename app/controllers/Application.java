@@ -166,23 +166,29 @@ public class Application extends Controller {
 
 	public static Result deactivateLinkedAccount(String provider) {
 
+		// return if link account is not active (doesn't have a provider)
+		// this would prevent failure from hardcoding bad args
 		final User localUser = getLocalUser(session());
 
 		// delete all entries belonging to a provider
-
 		//TaskEntry.find.where().eq("linkedAccounts.user.id", ...).findUnique();
-
 		List<Entry> entries = null;
 		if (provider.equals("github")) {
 			entries = PushEntry.find
 					.where()
-					.eq()
-					.findList("linkedAccounts.user.id", localUser.id);
+					.eq("linkedAccounts.user.id", localUser.id)
+					.findList();
 		} else if (provider.equals("wunderlist")) {
 			entries = TaskEntry.find
 					.where()
-					.eq()
-					.findList("linkedAccounts.user.id", localUser.id);
+					.eq("linkedAccounts.user.id", localUser.id)
+					.findList();
+		}
+
+		if (entries != null) {
+			for (Entry e : entries) {
+				e.delete();
+			}
 		}
 
 

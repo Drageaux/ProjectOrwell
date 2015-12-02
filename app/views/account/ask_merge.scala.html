@@ -15,6 +15,7 @@
 
 @display = {
     <div class="uk-container-center uk-width-3-5 uk-margin-large-top uk-margin-medium-bottom">
+
         <h1>@Messages("playauthenticate.merge.accounts.title")</h1>
         <p>
             @form(routes.Account.doMerge, 'class -> "form-horizontal", 'role -> "form") {
@@ -33,7 +34,7 @@
             ),
             '_label -> label,
             '_showConstraints -> false
-            )
+        )
 
         <button type="submit" class="uk-button uk-button-small uk-button-primary uk-margin-small" id="customButton"><span>Submit</span></button>
         }
