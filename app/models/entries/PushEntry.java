@@ -52,6 +52,10 @@ public class PushEntry extends Entry {
         return push ;
     }
 
+    public static Finder<Long, PushEntry> find = new Finder<Long, PushEntry>(
+            Long.class, PushEntry.class
+    );
+
     /* ******************************************************
      * * Getters and setters for PushEntry specific fields. *
      * ****************************************************** */

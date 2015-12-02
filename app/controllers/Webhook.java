@@ -31,6 +31,7 @@ public class Webhook extends Controller {
             //Format the string to remove non-parseable letters
             time = time.substring(0, time.indexOf("T")) + " " + time.substring(time.indexOf("T") + 1);
             time = time.substring(0, time.length()-1) ;
+            System.out.println("Task creation time: " + time) ;
             // create TaskAction for creation
             Entry entry = TaskEntry.create(userId, taskId, title, time, "created") ;
             entry.save() ;
@@ -54,10 +55,11 @@ public class Webhook extends Controller {
                     taskEntry = TaskEntry.create(userId, taskId, title, start_time, "created");
                     taskEntry.save();
                 }
+                System.out.println("Start time is : " + start_time) ;
+                System.out.println("End time is : " + end_time) ;
                 taskEntry.setEndTime(end_time);
                 taskEntry.setTaskType("completed");
                 taskEntry.save() ;
-                System.out.println(Entry.find.all()) ;
                 System.out.println("Created TaskEntry for completion") ;
             }
         }
@@ -84,19 +86,19 @@ public class Webhook extends Controller {
     }
 
     public static Result github() {
-        System.out.println("Called github webhook method.") ;
 
         JsonNode body = request().body().asJson() ;
         // Get the user id of the user who sent the push.
         long userId = body.get("sender").get("id").asLong();
         // Get the name of the user who pushed and the owner of the repo.
         String pusherName = body.get("pusher").get("name").asText() ;
-        String repoOwner = body.get("repository").get("owner").asText() ;
+        String repoOwner = body.get("repository").get("owner").get("name").asText() ;
         // Get the name of the repository pushed to.
         String repoName = body.get("repository").get("full_name").asText() ;
         // Get the timestamp of the push. (given in epoch time)
         long pushTime = body.get("repository").get("pushed_at").asLong() ;
-        Date pushDate = new Date(pushTime) ;
+        // Note that the number given by github is # seconds since 1970, but the Date takes # milliseconds since 1970.
+        Date pushDate = new Date(pushTime * 1000) ;
         // Get the url to the head commit
         String commitURL = body.get("head_commit").get("url").asText() ;
         // Get the url to the repository
@@ -104,21 +106,13 @@ public class Webhook extends Controller {
         // Get the commit message of the head commit.
         String commitMessage = body.get("head_commit").get("message").asText() ;
 
-        // If the pusher is not the repository owner (i.e. the current orwell user) then do not create an Entry.
-        if(!pusherName.equals(repoOwner)){
+        // If the pusher is the repository owner (i.e. the current orwell user) then create an Entry.
+        if(pusherName.equals(repoOwner)){
             PushEntry p = PushEntry.create(userId, pushDate, pusherName, repoName, commitURL, repositoryURL, commitMessage) ;
             p.save() ;
-            // Debug stuff, pls ignore.
-            System.out.println("Created PushEntry: ") ;
-            System.out.println("User id: " + p.getId()) ;
-            System.out.println("Repository name: " + p.getRepositoryName()) ;
-            System.out.println("Repository url: " + p.getRepositoryURL()) ;
-            System.out.println("Pusher name: " + p.getPusherName()) ;
-            System.out.println("Commit time: " + p.getStartTime()) ;
-            System.out.println("Is instantaneous? " + p.isInstantaneous()) ;
-            System.out.println("Commit message: " + p.getCommitMessage()) ;
-            System.out.println("Commit URL: " + p.getCommitURL()) ;
+            System.out.println("Successfully created PushEntry") ;
         }
+        // We are currently not saving push entries that come from users other than the current user (owner of the repo)
 
         return ok() ;
     }

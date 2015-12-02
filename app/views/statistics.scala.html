@@ -1,0 +1,19 @@
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], averages: Map[String, Long])
+
+@main(title = "Statistics") {
+    <!-- Highcharts imports -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <div class="uk-position-cover uk-margin-top">
+        @display
+    </div>
+}
+
+<!-- Display statistics -->
+@display = {
+    <div class="uk-margin-large-top uk-margin-medium-bottom" id="dataContainer">
+        <h1>Statistics:</h1>
+        @graph(taskMap, pushMap, averages)
+    </div>
+}

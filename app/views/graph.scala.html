@@ -1,0 +1,72 @@
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], averages: Map[String, Long])
+@import java.text.SimpleDateFormat
+
+
+<div style="margin-bottom: 25px; margin-left:5%; margin-right:5%">
+    <!-- Defines the container for the bar chart -->
+    <div class="uk-grid" data-uk-grid-margin>
+        <div class="uk-width-medium-1-3">
+            <div class="uk-panel uk-panel-box" style="background-color: white">
+                <h3 class="uk-panel-title">Your average week:</h3>
+                <ul>
+                    @for( (provider,avg) <- averages) {
+                        <li>@provider entries: @avg</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="uk-width-medium-2-3 uk-grid-margin" id="graphContainer" style="height:600px"></div>
+    </div>
+
+    <!-- This script creates the bar chart -->
+    <script type="text/javascript">
+        var taskData = [] ;
+        @for( (date,count) <- taskMap) {
+            taskData.push([@date, @count]) ;
+        }
+
+        var pushData = [] ;
+        @for( (date,count) <- pushMap) {
+            pushData.push([@date, @count]) ;
+        }
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'graphContainer',
+                type: 'column'
+            },
+            title: {
+                text: 'Number of entries by date'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of entries'
+                }
+            },
+            series: [
+                {
+                    name: 'Github entries',
+                    data: pushData
+                },
+                {
+                    name: 'Wunderlist entries',
+                    data: taskData
+                }
+            ],
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    pointPadding: 0,
+                    borderWidth: 1,
+                    groupPadding: 0,
+                    shadow: false,
+                    borderColor: '#303030'
+                }
+            }
+        });
+    </script>
+
+</div>
