@@ -163,6 +163,7 @@ public class Application extends Controller {
 		return ok(accounts.render());
 	}
 
+	@Restrict(@Group(Application.USER_ROLE))
 	public static Result deactivateLinkedAccount(String provider) {
 
 		// return if link account is not active (doesn't have a provider)
@@ -174,7 +175,7 @@ public class Application extends Controller {
 			LinkedAccount.findByProviderKey(localUser, provider).delete();
 		}
 
-		return ok(accounts.render());
+		return redirect("/accounts");
 	}
 
 
