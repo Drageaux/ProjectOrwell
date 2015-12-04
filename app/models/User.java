@@ -128,7 +128,8 @@ public class User extends AppModel implements Subject {
 
 		// deactivate the merged user that got added to this one
 		otherUser.active = false;
-		Ebean.save(Arrays.asList(new User[] { otherUser, this }));
+		Ebean.save(otherUser);
+		Ebean.save(this);
 	}
 
 	public static User create(final AuthUser authUser) {
