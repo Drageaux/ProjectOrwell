@@ -6,7 +6,7 @@
     <article class="uk-article uk-container-center">
         <div class="uk-grid">
             <div class="uk-width-1-2">
-                 <div class="uk-badge">@pushEntry.getCommitURL()</div>
+                 <div class="uk-badge">@pushEntry.getPusherName()</div>
             </div>
 
             <div class="uk-width-1-2">
@@ -20,7 +20,7 @@
 
         <div class="uk-grid">
             <div class="uk-width-1-1">
-                <h2 class="uk-article-title uk-margin-small">Author: @pushEntry.getPusherName</h2>
+                <h2 class="uk-article-title uk-margin-small">@pushEntry.getCommitMessage()</h2>
             </div>
         </div>
 
