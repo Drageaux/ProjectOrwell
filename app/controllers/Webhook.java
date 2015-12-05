@@ -31,7 +31,7 @@ public class Webhook extends Controller {
             //Format the string to remove non-parseable letters
             time = time.substring(0, time.indexOf("T")) + " " + time.substring(time.indexOf("T") + 1);
             time = time.substring(0, time.length()-1) ;
-            System.out.println("Task creation time: " + time) ;
+
             // create TaskAction for creation
             Entry entry = TaskEntry.create(userId, taskId, title, time, "created") ;
             entry.save() ;
@@ -55,8 +55,6 @@ public class Webhook extends Controller {
                     taskEntry = TaskEntry.create(userId, taskId, title, start_time, "created");
                     taskEntry.save();
                 }
-                System.out.println("Start time is : " + start_time) ;
-                System.out.println("End time is : " + end_time) ;
                 taskEntry.setEndTime(end_time);
                 taskEntry.setTaskType("completed");
                 taskEntry.save() ;

@@ -101,5 +101,5 @@ public class TaskEntry extends Entry {
     public String getTaskName(){
         return this.taskName ;
     }
-    
+
 }

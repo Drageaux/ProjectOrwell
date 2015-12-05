@@ -2,6 +2,8 @@ package models.entries;
 
 import models.LinkedAccount;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
  * Created by Austin on 12/5/2015.
  * Model for entries created from Facebook check-ins
  */
+
+@Entity
+@DiscriminatorValue("checkin")
 public class CheckinEntry extends Entry{
 
     String location ;
@@ -25,7 +30,8 @@ public class CheckinEntry extends Entry{
         this.location = loc ;
         this.taggedFriends = friends ;
     }
-    
+
+
     /***********************************************************
      * Create and return a new CheckinEntry object.
      ***********************************************************/
@@ -49,6 +55,13 @@ public class CheckinEntry extends Entry{
         return entry ;
     }
 
+
+    /***********************************
+     * Finder
+     ***********************************/
+    public static Finder<Long, CheckinEntry> find = new Finder<Long, CheckinEntry>(
+            Long.class, CheckinEntry.class
+    );
 
     /********************************************
      * Field getters & setters

@@ -1,4 +1,4 @@
-@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], averages: Map[String, Long])
+@(taskMap: Map[Long, Long], pushMap: Map[Long, Long], checkinMap: Map[Long, Long], averages: Map[String, Long])
 @import java.text.SimpleDateFormat
 
 
@@ -30,6 +30,11 @@
             pushData.push([@date, @count]) ;
         }
 
+        var checkinData = [] ;
+        @for( (date, count) <- checkinMap) {
+            checkinData.push([@date, @count]) ;
+        }
+
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graphContainer',
@@ -54,6 +59,10 @@
                 {
                     name: 'Wunderlist entries',
                     data: taskData
+                },
+                {
+                    name: 'Facebook entries',
+                    data: checkinData
                 }
             ],
             plotOptions: {
@@ -63,7 +72,8 @@
                     borderWidth: 1,
                     groupPadding: 0,
                     shadow: false,
-                    borderColor: '#303030'
+                    borderColor: '#303030',
+                    maxPointWidth: 10
                 }
             }
         });

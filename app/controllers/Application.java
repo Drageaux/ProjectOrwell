@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit ;
 
 import models.LinkedAccount;
 import models.User;
+import models.entries.CheckinEntry;
 import models.entries.Entry;
 import models.entries.PushEntry;
 import models.entries.TaskEntry;
@@ -59,9 +60,13 @@ public class Application extends Controller {
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result statistics() {
 		final User localUser = getLocalUser(session());
+		//Get the current date value (use this later to add a blank value to the calculated maps for each provider)
+		Long currentTime = new Long(new Date().getTime()) ;
+
 		//This will hold the averages for 1 week for each provider.
 		Map<String, Long> averages = new HashMap<String, Long>() ;
 
+		//Wunderlist tasks
 		List<TaskEntry> tasks = TaskEntry.find
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
@@ -76,7 +81,9 @@ public class Application extends Controller {
 
 		//We have to convert the tasks List to an array of TaskEntries before passing it into getCounts.
 		Map<Long, Long> taskCounts = getCounts(tasks.toArray(new TaskEntry[tasks.size()]));
+		taskCounts.put(currentTime, new Long(0)) ;
 
+		//Github pushes
 		List<PushEntry> pushes = PushEntry.find
 				.where()
 				.eq("linkedAccounts.user.id", localUser.id)
@@ -86,8 +93,21 @@ public class Application extends Controller {
 			averages.put("Github", getAverageWeek(pushes.toArray(new PushEntry[pushes.size()]))) ;
 		}
 		Map<Long, Long> pushCounts = getCounts(pushes.toArray(new PushEntry[pushes.size()]));
+		pushCounts.put(currentTime, new Long(0)) ;
 
-		return ok(statistics.render(taskCounts, pushCounts, averages));
+		//Facebook checkins
+		List<CheckinEntry> checkins = CheckinEntry.find
+				.where()
+				.eq("linkedAccounts.user.id", localUser.id)
+				.orderBy("end_time desc")
+				.findList();
+		if(!pushes.isEmpty()){
+			averages.put("Github", getAverageWeek(pushes.toArray(new CheckinEntry[pushes.size()]))) ;
+		}
+		Map<Long, Long> checkinCounts = getCounts(pushes.toArray(new CheckinEntry[pushes.size()]));
+		pushCounts.put(currentTime, new Long(0)) ;
+
+		return ok(statistics.render(taskCounts, pushCounts, checkinCounts, averages));
 	}
 
 	//This will create a mapping between the date and the number of entries that were created on that date.
