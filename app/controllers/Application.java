@@ -170,9 +170,11 @@ public class Application extends Controller {
 		// this would prevent failure from hardcoding bad URLs
 		final User localUser = getLocalUser(session());
 
-		// delete the linked account to a provider
+		// delete the account linked to a provider
 		if (localUser.linkedAccounts.size() > 1) {
 			LinkedAccount.findByProviderKey(localUser, provider).delete();
+			// redirects to keep the session running
+			return redirect("/authenticate/"+localUser.linkedAccounts.get(0).providerKey);
 		}
 
 		return redirect("/accounts");
