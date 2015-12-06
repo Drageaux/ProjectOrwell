@@ -65,6 +65,10 @@ public class LinkedAccount extends AppModel {
 		ret.providerKey = acc.providerKey;
 		ret.providerUserId = acc.providerUserId;
 
+		for (Entry entry : acc.entries) {
+			ret.entries.add(entry);
+		}
+
 		return ret;
 	}
 }

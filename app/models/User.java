@@ -123,12 +123,12 @@ public class User extends AppModel implements Subject {
 
 	public void merge(final User otherUser) {
 		for (final LinkedAccount acc : otherUser.linkedAccounts) {
-			this.linkedAccounts.add(LinkedAccount.create(acc));
-
+			LinkedAccount newAcc = LinkedAccount.create(acc);
+			this.linkedAccounts.add(newAcc);
+			acc.delete();
 		}
 
-		// deactivate the merged user that got added to this one
-		otherUser.linkedAccounts.clear();
+		// deactivate the merged User that got added to this one
 		otherUser.active = false;
 		Ebean.save(otherUser);
 		
