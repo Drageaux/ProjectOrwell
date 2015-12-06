@@ -1,11 +1,14 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.feth.play.module.pa.providers.oauth2.OAuth2AuthUser;
 import com.feth.play.module.pa.user.AuthUser;
+import models.entries.Entry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class LinkedAccount extends AppModel {
@@ -25,6 +28,14 @@ public class LinkedAccount extends AppModel {
 	public String providerKey;
 
 	public String providerAccessToken;
+
+	@ManyToMany
+	@JoinTable(
+			name="linkedaccount_entry",
+			joinColumns={@JoinColumn(name="linkedaccount_id", referencedColumnName="id")},
+			inverseJoinColumns={@JoinColumn(name="entry_id", referencedColumnName="id")})
+	public Set<Entry> entries;
+
 
 	public static final Finder<Long, LinkedAccount> find = new Finder<Long, LinkedAccount>(
 			Long.class, LinkedAccount.class);

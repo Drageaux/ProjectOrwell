@@ -3,8 +3,6 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit ;
-
-
 import models.LinkedAccount;
 import models.User;
 import models.entries.CheckinEntry;
@@ -53,6 +51,7 @@ public class Application extends Controller {
 
 		return ok(index.render(entries));
     }
+
 
 	//================================================================================
 	// Statistics page
@@ -229,16 +228,31 @@ public class Application extends Controller {
 	}
 
 
-
-
 	//================================================================================
-	// Integration Settings
+	// Accounts Page
 	//================================================================================
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result accounts() {
 
 		return ok(accounts.render());
+	}
+
+	@Restrict(@Group(Application.USER_ROLE))
+	public static Result deactivateLinkedAccount(String provider) {
+
+		// return if link account is not active (doesn't have a provider)
+		// this would prevent failure from hardcoding bad URLs
+		final User localUser = getLocalUser(session());
+
+		// delete the account linked to a provider
+		if (localUser.linkedAccounts.size() > 1) {
+			LinkedAccount.findByProviderKey(localUser, provider).delete();
+			// redirects to keep the session running
+			return redirect("/authenticate/"+localUser.linkedAccounts.get(0).providerKey);
+		}
+
+		return redirect("/accounts");
 	}
 
 
