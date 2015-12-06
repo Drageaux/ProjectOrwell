@@ -8,6 +8,8 @@ create table entries (
   id                            bigint not null,
   start_time                    timestamp,
   end_time                      timestamp,
+  location                      varchar(255),
+  tagged_friends                varchar(255),
   repository_name               varchar(255),
   pusher_name                   varchar(255),
   repository_url                varchar(255),
@@ -58,25 +60,6 @@ create table token_action (
 create sequence token_action_seq;
 
 create table users (
-<<<<<<< HEAD
-  id                        bigint not null,
-  email                     varchar(255),
-  name                      varchar(255),
-  first_name                varchar(255),
-  last_name                 varchar(255),
-  last_login                timestamp,
-  active                    boolean,
-  email_validated           boolean,
-  constraint pk_users primary key (id))
-;
-
-create table user_permission (
-  id                        bigint not null,
-  value                     varchar(255),
-  constraint pk_user_permission primary key (id))
-;
-
-=======
   id                            bigint not null,
   email                         varchar(255),
   name                          varchar(255),
@@ -88,7 +71,6 @@ create table user_permission (
   constraint pk_users primary key (id)
 );
 create sequence users_seq;
->>>>>>> deactivate
 
 create table users_security_role (
   users_id                      bigint not null,
@@ -118,9 +100,6 @@ create index ix_linkedaccount_entry_linked_account on linkedaccount_entry (linke
 alter table linkedaccount_entry add constraint fk_linkedaccount_entry_entries foreign key (entry_id) references entries (id) on delete restrict on update restrict;
 create index ix_linkedaccount_entry_entries on linkedaccount_entry (entry_id);
 
-<<<<<<< HEAD
-alter table users_security_role add constraint fk_users_security_role_users_01 foreign key (users_id) references users (id) on delete restrict on update restrict;
-=======
 alter table token_action add constraint fk_token_action_target_user_id foreign key (target_user_id) references users (id) on delete restrict on update restrict;
 create index ix_token_action_target_user_id on token_action (target_user_id);
 
@@ -129,7 +108,6 @@ create index ix_users_security_role_users on users_security_role (users_id);
 
 alter table users_security_role add constraint fk_users_security_role_security_role foreign key (security_role_id) references security_role (id) on delete restrict on update restrict;
 create index ix_users_security_role_security_role on users_security_role (security_role_id);
->>>>>>> deactivate
 
 alter table users_user_permission add constraint fk_users_user_permission_users foreign key (users_id) references users (id) on delete restrict on update restrict;
 create index ix_users_user_permission_users on users_user_permission (users_id);
@@ -143,15 +121,11 @@ create index ix_users_user_permission_user_permission on users_user_permission (
 alter table linked_account drop constraint if exists fk_linked_account_user_id;
 drop index if exists ix_linked_account_user_id;
 
-<<<<<<< HEAD
-drop table if exists linked_account;
-=======
 alter table linkedaccount_entry drop constraint if exists fk_linkedaccount_entry_linked_account;
 drop index if exists ix_linkedaccount_entry_linked_account;
 
 alter table linkedaccount_entry drop constraint if exists fk_linkedaccount_entry_entries;
 drop index if exists ix_linkedaccount_entry_entries;
->>>>>>> deactivate
 
 alter table token_action drop constraint if exists fk_token_action_target_user_id;
 drop index if exists ix_token_action_target_user_id;
