@@ -47,7 +47,7 @@ public class Application extends Controller {
 								.where()
 								.eq("linkedAccounts.user.id", localUser.id)
 								.orderBy("end_time desc")
-								.findList() ;
+								.findList();
 
 		return ok(index.render(entries));
     }

@@ -35,7 +35,7 @@ public class CheckinEntry extends Entry{
     /***********************************************************
      * Create and return a new CheckinEntry object.
      ***********************************************************/
-    public CheckinEntry create(long linkedAccountId, Date date, String loc, String friends){
+    public static CheckinEntry create(long linkedAccountId, Date date, String loc, String friends){
 
         //Find the LinkedAccount object using the id
         LinkedAccount linked = LinkedAccount.find.where().eq("providerUserId",""+linkedAccountId).findUnique() ;
