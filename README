@@ -1,7 +1,7 @@
-This is your new Play application
-=================================
-
-This file will be packaged with your application, when using `activator dist`.
+Requirements to Run
+================================
+Java 1.8 (either openjdk or oracle)
+Apps registered with Facebook, Wunderlist, and Github
 
 Setting up IntelliJ Idea
 =================================
@@ -24,11 +24,31 @@ You should now be in the project in IntelliJ and it won't build :(
 11. Select "Single Instance"
 12. Select "Okay"
 
-YOU DID IT!
+Without IntelliJ (deployment)
+==================================
+1. Clone the Repo  
+
+```git clone https://github.com/Drageaux/ProjectOrwell.git```
+
+2. Run the project
+```
+cd ProjectOrwell
+./activator run
+```
+
+NOTE: You will need to configure providers before the app will do anything useful but it will run.
+
+Configuring Providers
+==================================
+1. In `conf/application.conf` you'll need to set root to the baseurl of your application. This will be used for webhooks
+
+2. Edit the client ids and secrets in `conf/authenticate/mine.conf` with the appropriate ids and secrets from the providers you're using
 
 Database
 ===========================
-You'll need to change the database location uder conf/application.conf
+By default the database is in memory.
+If you want to change the database type or location you'll need to change the database location uder `conf/application.conf`
+See play documentation for more details
 
 Deploying on Azure VM
 ==========================
