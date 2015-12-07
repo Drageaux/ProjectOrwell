@@ -3,6 +3,8 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit ;
+
+import com.avaje.ebean.Ebean;
 import models.LinkedAccount;
 import models.User;
 import models.entries.CheckinEntry;
@@ -47,7 +49,7 @@ public class Application extends Controller {
 								.where()
 								.eq("linkedAccounts.user.id", localUser.id)
 								.orderBy("end_time desc")
-								.findList() ;
+								.findList();
 
 		return ok(index.render(entries));
     }
@@ -243,14 +245,22 @@ public class Application extends Controller {
 
 		// return if link account is not active (doesn't have a provider)
 		// this would prevent failure from hardcoding bad URLs
-		final User localUser = getLocalUser(session());
-
+		User localUser = getLocalUser(session());
 		// delete the account linked to a provider
 		if (localUser.linkedAccounts.size() > 1) {
-			LinkedAccount.findByProviderKey(localUser, provider).delete();
+			for (int i = 0; i < localUser.linkedAccounts.size(); i++) {
+				if (localUser.linkedAccounts.get(i).providerKey.equals(provider)) {
+                    localUser.linkedAccounts.get(i).delete();
+					localUser.linkedAccounts.remove(i);
+				}
+			}
+            localUser.save();
+
 			// redirects to keep the session running
-			return redirect("/authenticate/"+localUser.linkedAccounts.get(0).providerKey);
+            return redirect("/authenticate/"+localUser.linkedAccounts.get(0).providerKey);
 		}
+
+
 
 		return redirect("/accounts");
 	}

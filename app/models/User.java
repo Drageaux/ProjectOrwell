@@ -55,8 +55,8 @@ public class User extends AppModel implements Subject {
 	@ManyToMany
 	public List<SecurityRole> roles;
 
-//	@OneToMany(cascade = CascadeType.ALL)
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToMany(cascade = CascadeType.ALL)
+//	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	public List<LinkedAccount> linkedAccounts;
 
 	@ManyToMany
@@ -121,14 +121,14 @@ public class User extends AppModel implements Subject {
 				"linkedAccounts.providerKey", identity.getProvider());
 	}
 
-	public void merge(final User otherUser) {
-		for (final LinkedAccount acc : otherUser.linkedAccounts) {
-			LinkedAccount newAcc = LinkedAccount.create(acc);
-			this.linkedAccounts.add(newAcc);
-			acc.delete();
+	public void merge(User otherUser) {
+		for (LinkedAccount acc : otherUser.linkedAccounts) {
+			acc.user = this;
+            Ebean.save(acc);
 		}
 
 		// deactivate the merged User that got added to this one
+        otherUser.linkedAccounts.clear();
 		otherUser.active = false;
 		Ebean.save(otherUser);
 		

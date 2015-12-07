@@ -27,7 +27,7 @@ public class Entry extends AppModel {
     @GeneratedValue
     public Long id;
 
-    @ManyToMany(mappedBy="entries", cascade=CascadeType.ALL)
+    @ManyToMany(mappedBy="entries")
     public List<LinkedAccount> linkedAccounts = new ArrayList<LinkedAccount>();
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

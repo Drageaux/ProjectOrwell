@@ -29,7 +29,7 @@ public class LinkedAccount extends AppModel {
 
 	public String providerAccessToken;
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="linkedaccount_entry",
 			joinColumns={@JoinColumn(name="linkedaccount_id", referencedColumnName="id")},
