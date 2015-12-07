@@ -102,11 +102,16 @@ public class Application extends Controller {
 				.eq("linkedAccounts.user.id", localUser.id)
 				.orderBy("end_time desc")
 				.findList();
-		if(!pushes.isEmpty()){
-			averages.put("Github", getAverageWeek(pushes.toArray(new CheckinEntry[pushes.size()]))) ;
+		if(checkins == null){
+			checkins = new ArrayList<CheckinEntry>() ;
 		}
-		Map<Long, Long> checkinCounts = getCounts(pushes.toArray(new CheckinEntry[pushes.size()]));
-		pushCounts.put(currentTime, new Long(0)) ;
+
+		Map<Long, Long> checkinCounts ;
+		if(!checkins.isEmpty()){
+			averages.put("Facebook", getAverageWeek(pushes.toArray(new CheckinEntry[checkins.size()]))) ;
+		}
+		checkinCounts = getCounts(checkins.toArray(new CheckinEntry[checkins.size()]));
+		checkinCounts.put(currentTime, new Long(0)) ;
 
 		return ok(statistics.render(taskCounts, pushCounts, checkinCounts, averages));
 	}
